@@ -18,7 +18,8 @@ body {
 .form-card {
   width: 100%;
   max-width: 850px;
-  padding: 0% 20% 0% 20%;
+  padding: 0% 10% 0% 10%;
+  
 }
 
 .form-title { 
@@ -37,7 +38,13 @@ body {
   color: #afafaf;
   padding-bottom: 24px;
 }
-
+.form-error{
+  font-size: 18px;
+  font-family: 'Avenir';
+  letter-spacing: 0.5px;
+  color: #d61515;
+  padding-bottom: 24px;
+}
 .auth {
   position: relative;
   display: inline-block;

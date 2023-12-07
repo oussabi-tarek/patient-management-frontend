@@ -1,0 +1,30 @@
+.form-card .role{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    
+    padding: 20px;
+    color: white;
+    border: 1px solid rgb(235, 243, 240);
+    margin-bottom: 8px;
+}
+.form-card .role div{
+   display: flex;
+   flex-direction: row;
+    justify-content: space-between;
+    width: 50%;
+}
+.form-card .role div input{
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    border: 1px solid rgb(0, 88, 58);
+    padding: 5px;
+}
+.form-card .role div label{
+    margin-right: 20px;
+}

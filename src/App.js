@@ -1,16 +1,11 @@
-import { useState } from "react";
 import "./App.css";
-import AuthPage from "./components/chat/AuthPage"
-import ChatsPage from "./components/chat/ChatsPage";
+import AuthPage from "./components/auth/AuthPage";
+
 
 function App() {
-  const [user, setUser] = useState(undefined)
-
-  if (!user) {
-    return <AuthPage onAuth={(user) => setUser(user)} />;
-  } else {
-    return <ChatsPage user={user} />;
-  }
+  return(
+    <AuthPage />
+  )
 }
 
 export default App;

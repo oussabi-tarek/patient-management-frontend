@@ -1,14 +1,11 @@
 import { useEffect } from "react";
-import { MultiChatSocket, MultiChatWindow,useMultiChatLogic } from "react-chat-engine-advanced";
+import {  MultiChatSocket, MultiChatWindow,useMultiChatLogic } from "react-chat-engine-advanced";
 
 const ChatsPage = (props) => {
    console.log(props.user);
-   useEffect(()=>{
-       // open a socket connection
-        
-   },[])
+
   const chatProps = useMultiChatLogic(
-    "523cdcbc-b8f4-4662-9287-c87f646611b8",
+    "f38bb440-9203-4dea-9414-91b4b14fb518",
     props.user.username,
     props.user.secret,
   )

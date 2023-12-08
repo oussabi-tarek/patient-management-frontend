@@ -94,3 +94,16 @@ body {
   color: white; 
   background: rgb(43, 47, 60);
 }
+.image-animation{
+  position: relative;
+  animation-name: example;
+  animation-duration: 4s;
+   animation-iteration-count: infinite;
+}
+@keyframes example {
+  0%   {  top:0px;}
+  25%  { top:20px;}
+  50%  { top:0px;}
+  75%  { top:20px;}
+  100% { top:0px;}
+}

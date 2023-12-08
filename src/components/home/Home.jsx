@@ -14,7 +14,7 @@ const Home=()=>{
                    <p className='font-sans text-2xl font-bold text-indigo-700'>&nbsp;Protégez votre santé et prenez soin de votre santé</p>
                 </div>
                 <div className='flex mr-16'>
-                    <img className='h-80 w-50' src={DOCTOR} alt='health'/>
+                    <img className='h-80 w-50 image-animation' src={DOCTOR} alt='health'/>
                 </div>
             </div>
             <About/>

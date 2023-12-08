@@ -8,13 +8,13 @@
     border: 1px solid rgb(235, 243, 240);
     margin-bottom: 8px;
 }
-.form-card .role div{
-   display: flex;
-   flex-direction: row;
-    justify-content: space-between;
-    width: 50%;
-}
-.form-card .role div input{
+    /* .form-card .role div{
+    display: flex;
+    flex-direction: row;
+        justify-content: space-between;
+        width: 50%;
+    } */
+/* .form-card .role div input{
     width: 20px;
     height: 20px;
     margin-left: 10px;
@@ -27,4 +27,4 @@
 }
 .form-card .role div label{
     margin-right: 20px;
-}
+} */

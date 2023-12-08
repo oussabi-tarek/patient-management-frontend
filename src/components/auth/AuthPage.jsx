@@ -1,8 +1,9 @@
 import axios from "axios";
 import '../styles/Auth.css';
 import { useState } from "react";
+import Radio from "./Radio";
 
-const AuthPage = () => {
+const AuthPage = (props) => {
   const [error, setError] = useState(null);
   const onSubmit = (e) => {
     e.preventDefault();
@@ -16,6 +17,8 @@ const AuthPage = () => {
       .then((r) => {
         localStorage.setItem("user", r.data.user);
         localStorage.setItem("token",r.data.token);
+        props.setIsAuth(true);
+
 
       })
       .catch((e) => {
@@ -40,18 +43,9 @@ const AuthPage = () => {
           <div className="role">
           <p>Votre Profil:</p>
           <br/>
-          <div>
-          <label> Patient  </label>
-          <input className="auth-input" required name="profil" type="radio" value="patient"/> 
-          </div> 
-          <div>
-          <label> Medecin</label>
-          <input className="auth-input" required name="profil" type="radio" value="medecin" />
-          </div>
-          <div>
-          <label> Assistant</label>
-          <input className="auth-input" required name="profil" type="radio" value="assistant" /> 
-          </div>
+          <Radio label="Patient" value="patient" />
+          <Radio label="Medecin" value="medecin" />
+          <Radio label="Assistant" value="assistant" />
           </div>
           <button className="auth-button" type="submit">
             Entrer

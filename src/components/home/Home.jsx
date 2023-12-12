@@ -4,10 +4,10 @@ import DOCTOR from '../../assets/doctor.png';
 import Footer from './Footer';
 import Services from './Services';
 import About from './About';
-const Home=(props)=>{
+const Home=()=>{
     return(
         <div>
-            <Navbar setIsAuth={props.setIsAuth} />
+            <Navbar/>
             <div className='flex  p-20 w-full justify-between'>
                 <div className='flex flex-col  self-center  space-y-4 ml-12'>
                    <p className='font-serif'>Nous fournissons toutes les solutions de soins de santé</p>

@@ -8,7 +8,7 @@ const AuthPage = (props) => {
     e.preventDefault();
     console.log(e.target[2].value);
     axios
-      .post("http://localhost:8080/api/login", { 
+      .post("http://localhost:8080/api/users/login", { 
         email: e.target[0].value,
         password: e.target[1].value,
        })

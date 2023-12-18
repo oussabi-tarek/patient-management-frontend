@@ -8,19 +8,20 @@ const AuthPage = (props) => {
     e.preventDefault();
     console.log(e.target[2].value);
     axios
-      .post("http://localhost:8080/api/login", { 
-        email: e.target[0].value,
-        password: e.target[1].value,
-       })
-      .then((r) => {
-        localStorage.setItem("user", r.data.user);
-        localStorage.setItem("token",r.data.token);
-        props.setIsAuth(true);
-      })
-      .catch((e) => {
-        setError("Email ou mot de passe incorrect!");
-         console.log("Auth Error", e)
-      });
+        .post("http://localhost:8086/api/users/login", { 
+          email: e.target[0].value,
+          password: e.target[1].value,
+        })
+        .then((response) => {
+          const { user, token } = response.data;
+          localStorage.setItem("user", JSON.stringify(user));
+          localStorage.setItem("token", token);
+          props.setIsAuth(true);
+        })
+        .catch((error) => {
+          setError("Email ou mot de passe incorrect!");
+          console.error("Auth Error", error);
+        });
   };
 
   return (

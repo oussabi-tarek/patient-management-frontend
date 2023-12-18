@@ -1,27 +1,34 @@
-// Card.jsx
+// DoctorCard.js
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Card = (props) => {
+const DoctorCard = ({ doctor }) => {
   return (
     <div className="max-w-sm m-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <Link to={props.link}>
-        <img className="rounded-t-lg" src={props.image} alt="" />
+      <Link to={`/doctors/${doctor._id}`}>
+        {/* Assuming you have an image field in the doctor object */}
+        <img className="rounded-t-lg" src={doctor.image} alt={`${doctor.nom} ${doctor.prenom}'s photo`} />
       </Link>
       <div className="p-5">
-        <Link to={props.link}>
+        <Link to={`/doctors/${doctor._id}`}>
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {props.title}
+            {doctor.nom} {doctor.prenom}
           </h5>
         </Link>
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 text-sm">
-          {props.description}
+          {doctor.email}
+        </p>
+        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 text-sm">
+          {doctor.adresse}
+        </p>
+        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 text-sm">
+          {doctor.telephone}
         </p>
         <Link
-          to={props.link}
+          to={`/appointment/${doctor._id}`}  // Assuming you have a route for appointment booking
           className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          En savoir plus
+          Book Appointment
           <svg
             className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
             aria-hidden="true"
@@ -43,4 +50,4 @@ const Card = (props) => {
   );
 };
 
-export default Card;
+export default DoctorCard;

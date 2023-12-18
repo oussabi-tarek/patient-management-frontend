@@ -5,6 +5,8 @@ import AuthPage from "./components/auth/AuthPage";
 import Home from "./components/home/Home";
 import { LINKS } from "./constants/routes";
 import PersonalInformation from "./components/profile-settings/PersonalInformation";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const storedToken = localStorage.getItem("token");
@@ -17,6 +19,8 @@ function App() {
 
   return (
     <BrowserRouter>
+      <ToastContainer />
+
       <Routes>
         <Route
           path="/"

@@ -5,6 +5,7 @@ import Navbar from '../home/Navbar'; // Import the Navbar component
 import Footer from '../home/Footer'; // Import the Footer component
 import DoctorCard from './DoctorCard';
 import { useParams } from 'react-router-dom'; // Import useParams hook
+import '../styles/doctor.css'; // Import your CSS file
 
 const DoctorList = () => {
     const { serviceName } = useParams();
@@ -22,17 +23,19 @@ const DoctorList = () => {
   
     return (
       <div>
-        <Navbar />
-        <div className='flex  p-20 w-full justify-between'>
-            <h2>Doctors in {serviceName}</h2>
-        </div>
-        <div>
-          {doctors.map(doctor => (
-            <DoctorCard key={doctor._id} doctor={doctor} />
-          ))}
-        </div>
-        <Footer />
+      <Navbar />
+      <div className='container'>
+          <div className='heading-container'>
+              <h1 className='font-serif mt-2'>Doctors in {serviceName}</h1>
+          </div>
+          <div className='doctor-cards'>
+              {doctors.map(doctor => (
+                  <DoctorCard key={doctor._id} doctor={doctor} />
+              ))}
+          </div>
       </div>
+      <Footer/>
+  </div>
     );
   };
   

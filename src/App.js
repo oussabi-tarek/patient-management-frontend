@@ -6,6 +6,7 @@ import AuthPage from './components/auth/AuthPage';
 import Home from './components/home/Home';
 import DoctorList from './components/doctors/DoctorList';
 import AppointmentForm from './components/appointment/AppointmentForm';
+import UserAppointments from './components/appointment/UserAppointments'; // Import the new component
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
@@ -20,6 +21,7 @@ function App() {
             <Route path="/" element={<Home setIsAuth={setIsAuth} />} />
             <Route path="/doctors/:serviceName" element={<DoctorList />} />
             <Route path="/appointment/:doctorId" element={<AppointmentForm />} />
+            <Route path="/appointments" element={<UserAppointments />} />
           </>
         )}
       </Routes>

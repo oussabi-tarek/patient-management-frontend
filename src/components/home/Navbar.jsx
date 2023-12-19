@@ -1,6 +1,7 @@
 import LOGO  from '../../assets/logo.png';
 import PROFILE from '../../assets/profile.png';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = (props) => {
     const [showInfoProfile, setShowInfoProfile] = useState(false);
@@ -66,6 +67,14 @@ const Navbar = (props) => {
             <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
             </div>
             <ul className="py-2" aria-labelledby="user-menu-button">
+            <li>
+                <Link
+                    to="/appointments"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                >
+                    Appointment
+                </Link>
+            </li>
             <li>
                 <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
             </li>

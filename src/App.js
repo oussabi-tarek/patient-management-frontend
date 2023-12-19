@@ -7,6 +7,8 @@ import { LINKS } from "./constants/routes";
 import PersonalInformation from "./components/profile-settings/PersonalInformation";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import HomeMedecin from "./components/home/medecin/HomeMedecin";
+
 
 function App() {
   const storedToken = localStorage.getItem("token");
@@ -40,7 +42,14 @@ function App() {
             isAuth ? <PersonalInformation /> : <Navigate to={redirectLink} />
           }
         />
-      </Routes>
+
+        {
+          !isAuth  ? <Route path="/" element={<AuthPage setIsAuth={setIsAuth} />} /> : 
+          <Route path="/" element={<Home setIsAuth={setIsAuth}  />} />
+        }
+        <Route path="/medecin" element={<HomeMedecin setIsAuth={setIsAuth}/>} />
+       </Routes>
+
     </BrowserRouter>
   );
 }

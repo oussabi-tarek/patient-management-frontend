@@ -3,26 +3,31 @@ import { useParams } from 'react-router-dom';
 import Table from './Table';
 import axios from 'axios';
 import Form from './Form';
+import PatientInformations from './PatientInformations';
 
 function Details(){
    const params=useParams();
    const [historiqueRendezVous,setHistoriqueRendezVous]=useState([]);
+   const [patient,setPatient]=useState({});
    const [activeTab, setActiveTab] = useState('informations');
    useEffect(()=>{
     const user=JSON.parse(localStorage.getItem("user"));
+    console.log("user:"+user);
     axios
-  .get("http://localhost:8080/appointments/doctor/"+user.id+"/patient/"+params.id,{ 
+     .get("http://localhost:8080/appointments/doctor/"+user.id+"/patient/"+params.id,{ 
     headers: {
       Authorization: "Bearer " + localStorage.getItem("token"),
     },
    })
-  .then((r) => {
+   .then((r) => {
     setHistoriqueRendezVous(r.data);
+    setPatient(r.data[0].patient);
+    console.log(r.data);
   })
   .catch((e) => {
      console.log("Auth Error", e)
    });
-  },[params])
+  },[])
    const onTabClick = (tab) => {
          setActiveTab(tab);
     } 
@@ -45,14 +50,7 @@ function Details(){
     </ul>
     <div id="defaultTabContent">
         <div className={`${activeTab==="informations" ?  '':'hidden'} p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800`} id="about" role="tabpanel" aria-labelledby="about-tab">
-            <h2 className="mb-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">Powering innovation & trust at 200,000+ companies worldwide</h2>
-            <p className="mb-3 text-gray-500 dark:text-gray-400">Empower Developers, IT Ops, and business teams to collaborate at high velocity. Respond to changes and deliver great customer and employee service experiences fast.</p>
-            <a href="#" className="inline-flex items-center font-medium text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-700">
-                Learn more
-                <svg className=" w-2.5 h-2.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"/>
-                </svg>
-            </a>
+            <PatientInformations  patient={patient} />
         </div>
         <div className={`${activeTab==="historique" ?  '':'hidden'} p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800`} id="services" role="tabpanel" aria-labelledby="services-tab">
             <h2 className="mb-5 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">Vous trouvez ici l'ensemble de votre historqiue avec ce Patient</h2>

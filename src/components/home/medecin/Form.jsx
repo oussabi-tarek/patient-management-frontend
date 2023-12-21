@@ -1,13 +1,14 @@
 import CheckBox from './CheckBox';
 import {useState} from 'react';
 import List from './List';
+import jsPDF from 'jspdf';
 
 function Form(){
    const [medicaments,setMedicaments]=useState([]);
    const [medicament,setMedicament]=useState('');
    const [nbrPrise,setNbrPrise]=useState('');
    const onAddMedicamentAndNbrPrise=()=>{
-    if(medicament!==""){
+    if(medicament!=="" && nbrPrise!==""){
          const nvMedicament={
             med:medicament,
             prise:nbrPrise
@@ -24,6 +25,26 @@ function Form(){
    const onAddNbrPrise=(e)=>{
       setNbrPrise(e.target.value);
    }
+   const generateOrdonnance=(e)=>{
+    e.preventDefault();
+     var doc = new jsPDF('p', 'pt');
+ 
+    doc.text(100, 20, 'Ordonnance N°: 1')
+    doc.setFont('helvetica')
+    doc.text(30, 60, 'Informations Patient:')
+    doc.setFont('helvetica')
+    doc.text(30, 80, 'Nom: ')
+    doc.setFont('helvetica')
+    doc.text(30, 100, 'Prenom: ')
+    doc.setFont('helvetica')
+    doc.text(30, 120, 'Age: ')
+    doc.setFont('helvetica')
+    doc.text(30, 140, 'Sexe: ')
+ 
+ 
+    doc.save('sample-file.pdf')
+   }
+
     const onDeleteMedicament = (medicament) => {
         medicaments.map((med,index)=>{
           if(med.med === medicament.med && med.prise === medicament.prise){
@@ -33,7 +54,7 @@ function Form(){
         })
     }
   return(
-    <form className="max-w-sm mx-auto">
+    <form className="max-w-sm mx-auto" onSubmit={generateOrdonnance}>
     <div className="mb-5">  
         <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
         <select id="countries" value={medicament}
@@ -47,7 +68,7 @@ function Form(){
     </div>
     <div className="mb-5">
         <label htmlFor="nbr_prise" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre de prise</label>
-        <input type="number" onChange={onAddNbrPrise} value={nbrPrise} id="nbr_prise" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+        <input type="number" onChange={onAddNbrPrise} value={nbrPrise} id="nbr_prise" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
     </div>
     <button type="button" onClick={onAddMedicamentAndNbrPrise} className="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs w-full sm:w-auto px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Ajouter</button>
     <List medicaments={medicaments} onDeleteMedicament={onDeleteMedicament}/> 
@@ -56,7 +77,7 @@ function Form(){
             <CheckBox/>
      </div>
 
-    <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Generer</button>
+    <button type="submit"  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Generer</button>
     </form>
   )
 }

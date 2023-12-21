@@ -1,19 +1,38 @@
 import React from "react";
-import DOCTOR from "../../../assets/doctor.png";
+import axios from "axios";
+import Card from "./Card";
 
-function RendezVousEncours(){
+
+
+function RendezVousEncours(props){
+    const [rendezVousEncours,setRendezVousEncours]=React.useState([]);
+    React.useEffect(()=>{
+        axios
+      .get("http://localhost:8080/appointments/current/doctor",{ 
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+       })
+      .then((r) => {
+        setRendezVousEncours(r.data);
+          console.log(r.data);
+      })
+      .catch((e) => {
+         console.log("Auth Error", e)
+      });
+    },[])
    return(
-    <div>
-            <div className='flex  p-20 w-full justify-between'>
-                <div className='flex flex-col  self-center  space-y-4 ml-12'>
-                   <p className='font-serif'>rendez vous en cours</p>
-                   <p className='font-sans text-2xl font-bold text-indigo-700'>&nbsp;Protégez votre santé et prenez soin de votre santé</p>
-                </div>
-                <div className='flex mr-16'>
-                    <img className='h-80 w-50 image-animation' src={DOCTOR} alt='health'/>
-                </div>
-            </div>
+    <div className="flex flex-col ">
+        <div className="grid justify-items-center">
+        <h1>Votre Rendez-vous En Cours</h1>
         </div>
+        <div className='flex flex-wrap'>
+        {
+            rendezVousEncours.length===0 ? <h1>Vous n'avez pas de rendez vous en cours </h1> :
+            <Card rendezVous={rendezVousEncours[0]} enCours={true}/>
+        }
+        </div>
+    </div>
    )
 }
 export default RendezVousEncours;

@@ -8,6 +8,8 @@ import PersonalInformation from "./components/profile-settings/PersonalInformati
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HomeMedecin from "./components/home/medecin/HomeMedecin";
+import Details from "./components/home/medecin/Details";
+import Calendar from "./components/home/medecin/Calendar";
 import DoctorList from './components/doctors/DoctorList';
 import AppointmentForm from './components/appointment/AppointmentForm';
 import UserAppointments from './components/appointment/UserAppointments'; // Import the new component
@@ -51,6 +53,12 @@ function App() {
           <Route path="/" element={<Home setIsAuth={setIsAuth}  />} />
         }
         <Route path="/medecin" element={<HomeMedecin setIsAuth={setIsAuth}/>} />
+        <Route path="/details/:id/:enCours" element={<Details />} />
+        <Route path="/date" element={
+           <div>
+           <Calendar />
+         </div>
+        } />
         <Route path="/details" element={<Details />} />
           <Route path="/doctors/:serviceName" element={<DoctorList />} />
             <Route path="/appointment/:doctorId" element={<AppointmentForm />} />

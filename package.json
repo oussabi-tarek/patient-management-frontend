@@ -7,13 +7,16 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "flowbite": "^2.2.0",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
+    "react-calendar": "^4.7.0",
     "react-chat-engine": "^1.11.28",
     "react-chat-engine-advanced": "^0.1.28",
     "react-chat-engine-pretty": "^0.1.8",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.1",
     "react-scripts": "5.0.1",
+    "tailwind-datepicker-react": "^1.4.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

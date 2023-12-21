@@ -13,7 +13,7 @@ const AuthPage = (props) => {
         password: e.target[1].value,
        })
       .then((r) => {
-        localStorage.setItem("user", r.data.user);
+        localStorage.setItem("user", JSON.stringify(r.data.user));
         localStorage.setItem("token",r.data.token);
         props.setIsAuth(true);
       })

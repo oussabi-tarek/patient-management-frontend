@@ -1,0 +1,36 @@
+/* styles.css */
+
+/* Reset some default margin and padding */
+body, h1, h2, p, div {
+    margin: 0;
+    padding: 0;
+}
+
+/* Apply a box-sizing border-box to all elements */
+* {
+    box-sizing: border-box;
+}
+
+/* Container styles */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+/* Heading styles */
+.heading-container {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    margin-left: 12px;
+    margin-bottom: 16px; /* Optional: Adjust as needed */
+}
+
+/* Doctor Card styles */
+.doctor-cards {
+    display: flex;
+    flex-wrap: wrap;
+    /* Add more styles for DoctorCard if needed */
+}

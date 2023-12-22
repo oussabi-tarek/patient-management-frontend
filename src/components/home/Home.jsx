@@ -4,7 +4,8 @@ import DOCTOR from '../../assets/doctor.png';
 import Footer from './Footer';
 import Services from './Services';
 import About from './About';
-const Home=()=>{
+
+const Home=(props)=>{
     return(
         <div>
             <Navbar/>

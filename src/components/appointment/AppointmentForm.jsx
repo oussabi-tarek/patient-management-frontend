@@ -21,7 +21,7 @@ const AppointmentForm = () => {
   const checkAvailability = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:8080/check-availability`,
+        `http://localhost:8086/check-availability`,
         { doctorId, date }
       );
 

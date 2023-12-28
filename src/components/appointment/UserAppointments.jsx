@@ -18,7 +18,7 @@ const UserAppointments = () => {
 
   const handleDeleteAppointment = async (appointmentId) => {
     try {
-      await axios.delete(`http://localhost:8080/appointments/${appointmentId}`, {
+      await axios.delete(`http://localhost:8086/appointments/${appointmentId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

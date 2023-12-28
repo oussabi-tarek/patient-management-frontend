@@ -12,7 +12,7 @@ const DoctorList = () => {
     const [doctors, setDoctors] = useState([]);
   
     useEffect(() => {
-      axios.get(`http://localhost:8080/medecins/${serviceName}`)
+      axios.get(`http://localhost:8086/medecins/${serviceName}`)
         .then(response => {
           setDoctors(response.data);
         })

@@ -2,7 +2,7 @@ import PROFILE from '../../../assets/profile.png';
 import { differenceInYears, parseISO } from 'date-fns';
 
 function PatientInformations(props){
-    console.log(props.patient);
+   // console.log(props.patient);
     const getAge = (dateString) => {
           // Parse la date de naissance au format ISO
         if(dateString!==undefined){

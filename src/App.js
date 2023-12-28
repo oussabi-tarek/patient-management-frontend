@@ -16,6 +16,9 @@ import UserAppointments from './components/appointment/UserAppointments'; // Imp
 
 
 function App() {
+   const [isAuth,setIsAuth] = useState(false);
+   const [isMedecin,setIsMedecin] = useState(false);
+   
   const storedToken = localStorage.getItem("token");
   const [isAuth, setIsAuth] = useState(!!storedToken); // Use !! to convert to boolean
   useEffect(() => {
@@ -49,11 +52,13 @@ function App() {
         />
 
         {
+          !isMedecin && (
           !isAuth  ? <Route path="/" element={<AuthPage setIsAuth={setIsAuth} />} /> : 
           <Route path="/" element={<Home setIsAuth={setIsAuth}  />} />
+          )
         }
         <Route path="/medecin" element={<HomeMedecin setIsAuth={setIsAuth}/>} />
-        <Route path="/details/:id/:enCours" element={<Details />} />
+        <Route path="/details/:id/:idRendezVous/:enCours" element={<Details />} />
         <Route path="/date" element={
            <div>
            <Calendar />

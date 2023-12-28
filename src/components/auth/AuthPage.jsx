@@ -16,8 +16,10 @@ const AuthPage = (props) => {
        })
       .then((r) => {
         localStorage.setItem("user", JSON.stringify(r.data.user));
+        console.log(r.data.user);
         localStorage.setItem("token",r.data.token);
         props.setIsAuth(true);
+        window.location.href = '/medecin';
       })
       .catch((e) => {
         setError("Email ou mot de passe incorrect!");

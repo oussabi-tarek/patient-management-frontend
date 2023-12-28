@@ -22,7 +22,7 @@ const UpdateAppointment = ({
   const checkAvailability = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:8086/check-availability`,
+        `http://localhost:8080/check-availability`,
         { doctorId, date }
       );
 
@@ -127,7 +127,7 @@ const UpdateAppointment = ({
 
   return (
     <div className="container">
-      <h1 className="font-serif mt-2">Update Appointment</h1>
+      <h1 className="font-serif mt-2">Mettre à jour le rendez-vous</h1>
       <div className="max-w-sm m-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-4">
         {/* Date input */}
         <label className="block text-sm font-medium text-gray-700">
@@ -149,7 +149,7 @@ const UpdateAppointment = ({
             required
             disabled={!isDateAvailable} // Disable if date is not available
           >
-            <option value="">Select Time</option>
+            <option value="">Sélectionnez l'heure</option>
             {availableTimes.map((availableTime, index) => (
               <option key={index} value={availableTime}>
                 {availableTime}
@@ -197,7 +197,7 @@ const UpdateAppointment = ({
           className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
           onClick={handleUpdate}
         >
-          Update Appointment
+          Mettre à jour le rendez-vous
         </button>
 
         {/* Cancel button */}
@@ -205,7 +205,7 @@ const UpdateAppointment = ({
           className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
           onClick={onCancel}
         >
-          Cancel
+          Annuler
         </button>
       </div>
     </div>

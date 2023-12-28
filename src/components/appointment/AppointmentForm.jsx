@@ -21,7 +21,7 @@ const AppointmentForm = () => {
   const checkAvailability = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:8086/check-availability`,
+        `http://localhost:8080/check-availability`,
         { doctorId, date }
       );
 
@@ -100,7 +100,7 @@ const AppointmentForm = () => {
     <div>
       <Navbar />
       <div className="container">
-        <h1 className='font-serif mt-2'>Create New Appointment</h1>
+        <h1 className='font-serif mt-2'>Créer un nouveau rendez-vous</h1>
         <div className="max-w-sm m-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-4">
           <label className="block text-sm font-medium text-gray-700">
             Date:
@@ -121,7 +121,7 @@ const AppointmentForm = () => {
               required
               disabled={!isDateAvailable} // Disable if date is not available
             >
-              <option value="">Select Time</option>
+              <option value="">Sélectionnez l'heure</option>
               {availableTimes.map((availableTime, index) => (
                 <option key={index} value={availableTime}>
                   {availableTime}

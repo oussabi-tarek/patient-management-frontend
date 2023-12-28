@@ -16,26 +16,25 @@ import UserAppointments from './components/appointment/UserAppointments'; // Imp
 
 
 function App() {
-   const [isAuth,setIsAuth] = useState(false);
+  // const [isAuth,setIsAuth] = useState(false);
    const [isMedecin,setIsMedecin] = useState(false);
    
   const storedToken = localStorage.getItem("token");
-  const [isAuth, setIsAuth] = useState(!!storedToken); // Use !! to convert to boolean
+  const [isAuth, setIsAuth] = useState(!!storedToken); 
   useEffect(() => {
     setIsAuth(!!storedToken);
   }, [storedToken]);
   const redirectLink = isAuth ? LINKS.HOME : LINKS.LOGIN;
-  console.log(isAuth);
 
   return (
     <BrowserRouter>
       <ToastContainer />
 
       <Routes>
-        <Route
+        {/* <Route
           path="/"
           element={isAuth ? <Home /> : <Navigate to={redirectLink} />}
-        />
+        /> */}
         <Route
           path="/home"
           element={isAuth ? <Home /> : <Navigate to={redirectLink} />}

@@ -76,7 +76,7 @@ const UserAppointments = () => {
     <div >
       <Navbar />
       <div className="user-appointments-container">
-        <h2>Your Appointments</h2>
+        <h2>Vos rendez-vous</h2>
         <table className="appointments-table">
             <thead>
             <tr>
@@ -108,7 +108,7 @@ const UserAppointments = () => {
                           href={`http://localhost:8086/documents/${appointment._id}/${index}`}
                           download={document.name}
                         >
-                          Download
+                          Télécharger
                         </a>
 
                         {/* Add a Delete button */}
@@ -116,18 +116,18 @@ const UserAppointments = () => {
                           className="mt-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
                           onClick={() => handleDeleteDocument(appointment._id, index)}
                         >
-                          Delete
+                          Supprimer
                         </button>
                       </div>
                     ))}
                 </td>
                 <td>
                     <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                        onClick={() => handleUpdateAppointment(appointment._id)}>Update</button>
+                        onClick={() => handleUpdateAppointment(appointment._id)}>Mise à jour</button>
                 </td>
                 <td>
                     <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                        onClick={() => handleDeleteAppointment(appointment._id)}>Delete</button>
+                        onClick={() => handleDeleteAppointment(appointment._id)}>Supprimer</button>
                 </td>
                 </tr>
             ))}

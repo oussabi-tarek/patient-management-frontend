@@ -35,6 +35,8 @@ function App() {
           path="/"
           element={isAuth ? <Home /> : <Navigate to={redirectLink} />}
         /> */}
+
+        
         <Route
           path="/home"
           element={isAuth ? <Home /> : <Navigate to={redirectLink} />}

@@ -1,0 +1,1 @@
+export const PATIENT_API_URL = 'http://localhost:5000/api/patients'

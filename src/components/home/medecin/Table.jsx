@@ -1,14 +1,24 @@
 import moment from 'moment';
 import 'moment/locale/fr';
+import Pdf from './Pdf';
+import { useState } from 'react';
+import PDFViewer from './PDFViewer';
 
 function Table(propos){
+  const [showPdf,setShowPDF]=useState(false);
+  const [data,setData]=useState([]);
   const formatDate = (date) => {
     const momentObj = moment(date);
     const formattedDateTime = momentObj.format('dddd DD MMMM YYYY [à] HH:mm:ss');
     return formattedDateTime;
   }
+  const onShowPDF=(data)=>{
+     setData(data);
+     setShowPDF(true);
+  }
  return(
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+    !showPdf ?
+  <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase dark:text-gray-400">
             <tr>
@@ -25,7 +35,13 @@ function Table(propos){
                     Documents
                 </th>
                 <th scope="col" className="px-6 py-3">
-                    Consultation
+                    Ordonnance
+                </th>
+                <th scope="col" className="px-6 py-3">
+                    Analyses
+                </th>
+                <th scope="col" className="px-6 py-3">
+                    Scanners
                 </th>
             </tr>
         </thead>
@@ -44,10 +60,36 @@ function Table(propos){
                                 {rendezVous.type}
                             </td>
                             <td className="px-6 py-4">
-                                {rendezVous.documents}
+                                {
+                                rendezVous.documents.map((document)=>{
+                                    return (
+                                        <Pdf ordonnance={document} onShowPDF={onShowPDF}/>
+                                    )
+                                })}
                             </td>
                             <td className="px-6 py-4">
-                                {rendezVous.consultation}
+                                { 
+                                rendezVous.consultation!==undefined &&
+                                <Pdf ordonnance={rendezVous.consultation.ordonnance} onShowPDF={onShowPDF}/>
+                                }
+                            </td>
+                            <td className="px-6 py-4">
+                                {
+                                rendezVous.consultation!==undefined &&
+                                rendezVous.consultation.analyses.map((document)=>{
+                                    return (
+                                        <Pdf ordonnance={document} onShowPDF={onShowPDF}/>
+                                    )
+                                })}
+                            </td>
+                            <td className="px-6 py-4">
+                                {
+                                rendezVous.consultation!==undefined &&
+                                rendezVous.consultation.scanner.map((document)=>{
+                                    return (
+                                        <Pdf ordonnance={document} onShowPDF={onShowPDF}/>
+                                    )
+                                })}
                             </td>
                         </tr>
                     )
@@ -55,8 +97,7 @@ function Table(propos){
             }
         </tbody>
     </table>
-   </div>
-
+   </div>: <PDFViewer data={data} setShowPDF={setShowPDF} />
  )
 }
 export default Table;

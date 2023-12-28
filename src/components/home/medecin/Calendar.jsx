@@ -1,6 +1,7 @@
 import Datepicker from "tailwind-datepicker-react";
 import React, { useState } from "react";
 
+
 const options = {
 	title: "Choisir une date",
 	autoHide: true,
@@ -49,8 +50,8 @@ function Calendar(props){
 	}
 
 	return (
-		<div>
-			<Datepicker options={options} onChange={handleChange} show={show} setShow={handleClose} />
+		<div className="flex flex-col datapicker-style">
+			<Datepicker  options={options} onChange={handleChange} show={show} setShow={handleClose} />
 		</div>
 	)
 }

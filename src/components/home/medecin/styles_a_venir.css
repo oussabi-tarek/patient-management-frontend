@@ -1,0 +1,15 @@
+.datapicker-style .w-full .absolute.z-50.block.pt-2{
+    margin-top: 120px;
+    z-index: 1;
+}
+.datapicker-style .w-full  .absolute.z-50.block.pt-2 div.flex.mt-2.space-x-2 button{
+     display: none;
+}
+#footer{
+ 
+  bottom: 0;
+ 
+}
+#list_rendez-vous{
+   min-height:  363px;
+}

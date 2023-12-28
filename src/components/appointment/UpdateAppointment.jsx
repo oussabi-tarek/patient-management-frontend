@@ -1,13 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const UpdateAppointment = ({ appointmentId, token, onUpdateSuccess, onCancel, selectedAppointment }) => {
+const UpdateAppointment = ({
+  appointmentId,
+  token,
+  onUpdateSuccess,
+  onCancel,
+  selectedAppointment,
+}) => {
   // State variables to hold form data
   const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
   const [cause, setCause] = useState('');
   const [type, setType] = useState('en ligne');
-  const [documents, setDocuments] = useState(null);
-  const [selectedDocumentName, setSelectedDocumentName] = useState('');
+  const [documents, setDocuments] = useState([]);
+  const [selectedDocumentNames, setSelectedDocumentNames] = useState([]);
+  const [doctorId, setDoctorId] = useState('');
+  const [availableTimes, setAvailableTimes] = useState([]);
+  const [isDateAvailable, setIsDateAvailable] = useState(true);
+
+  const checkAvailability = async () => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8086/check-availability`,
+        { doctorId, date }
+      );
+
+      const existingAppointments = response.data.existingAppointments;
+
+      // Extract hours and minutes from the existing appointments and format them as "HH:mm"
+      const reservedTimes = existingAppointments.map(appointment => {
+        const appointmentDate = new Date(appointment.date);
+        const hours = appointmentDate.getUTCHours().toString().padStart(2, '0');
+        const minutes = appointmentDate.getUTCMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
+      });
+
+      // Calculate available times based on your working hours
+      const workingHours = ['08:30', '09:30', '10:30', '11:30', '14:30', '15:30', '16:30', '17:30'];
+      const availableTimes = workingHours.filter(time => !reservedTimes.includes(time));
+
+      setAvailableTimes(availableTimes);
+
+      // Check if all times are taken
+      setIsDateAvailable(availableTimes.length > 0);
+    } catch (error) {
+      console.error('Error checking availability:', error);
+    }
+  }; 
 
   // Use effect to update form data when selectedAppointment changes
   useEffect(() => {
@@ -15,22 +55,39 @@ const UpdateAppointment = ({ appointmentId, token, onUpdateSuccess, onCancel, se
       setDate(new Date(selectedAppointment.date).toISOString().split('T')[0]);
       setCause(selectedAppointment.cause);
       setType(selectedAppointment.type);
+      setDoctorId(selectedAppointment.medecin);
 
-      // Set documents only if there are no existing documents
-      if (!selectedAppointment.documents || selectedAppointment.documents.length === 0) {
-        setDocuments(null);
+      // Set documents only if there are existing documents
+      if (selectedAppointment.documents && selectedAppointment.documents.length > 0) {
+        // Set selected document names
+        setSelectedDocumentNames(
+          selectedAppointment.documents.map((doc) => doc.name)
+        );
       }
-
-      // Set selected document name
-      setSelectedDocumentName(selectedAppointment.documents[0]?.name || '');
     }
-  }, [selectedAppointment]);
+    if (date) {
+      checkAvailability();
+    }
+  }, [selectedAppointment, date]);
+
 
   // Function to handle file input change
-  const handleFileChange = async (e) => {
-    const file = e.target.files[0];
-    setDocuments(file);
-    setSelectedDocumentName(file?.name || '');
+  const handleFileChange = (e) => {
+    const newFiles = Array.from(e.target.files);
+    setDocuments([...documents, ...newFiles]);
+    const newDocumentNames = newFiles.map((file) => file.name);
+    setSelectedDocumentNames([...selectedDocumentNames, ...newDocumentNames]);
+  };
+
+  // Function to handle document deletion
+  const handleDeleteDocument = (index) => {
+    const updatedDocuments = [...documents];
+    updatedDocuments.splice(index, 1);
+    setDocuments(updatedDocuments);
+
+    const updatedDocumentNames = [...selectedDocumentNames];
+    updatedDocumentNames.splice(index, 1);
+    setSelectedDocumentNames(updatedDocumentNames);
   };
 
   // Function to handle the update button click
@@ -40,19 +97,26 @@ const UpdateAppointment = ({ appointmentId, token, onUpdateSuccess, onCancel, se
         date,
         cause,
         type,
-        documents: {
-          name: documents ? documents.name : null,
-          type: documents ? documents.type : null,
-          data: documents ? await fileToBase64(documents) : null,
-        },
+        doctorId,
+        time,
+        // Concatenate existing documents with new ones
+        documents: [...selectedAppointment.documents, ...documents].map((file) => ({
+          name: file.name,
+          type: file.type,
+          data: file.data, // Assuming the file data is already base64-encoded
+        })),
       };
   
-      await axios.put(`http://localhost:8086/appointments/${appointmentId}`, requestData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
+      await axios.put(
+        `http://localhost:8086/appointments/${appointmentId}`,
+        requestData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
   
       console.log('Appointment updated successfully');
       onUpdateSuccess();
@@ -60,20 +124,10 @@ const UpdateAppointment = ({ appointmentId, token, onUpdateSuccess, onCancel, se
       console.error('Error updating appointment:', error.response.data.message);
     }
   };
-  
-  const fileToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result.split(',')[1]);
-      reader.onerror = (error) => reject(error);
-    });
-  };
-  
 
   return (
     <div className="container">
-      <h1 className='font-serif mt-2'>Update Appointment</h1>
+      <h1 className="font-serif mt-2">Update Appointment</h1>
       <div className="max-w-sm m-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-4">
         {/* Date input */}
         <label className="block text-sm font-medium text-gray-700">
@@ -85,7 +139,24 @@ const UpdateAppointment = ({ appointmentId, token, onUpdateSuccess, onCancel, se
             onChange={(e) => setDate(e.target.value)}
           />
         </label>
-
+        {/* Time select */}
+        <label className="block text-sm font-medium text-gray-700">
+          Time:
+          <select
+            className="mt-1 p-2 block w-full border rounded-md"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            required
+            disabled={!isDateAvailable} // Disable if date is not available
+          >
+            <option value="">Select Time</option>
+            {availableTimes.map((availableTime, index) => (
+              <option key={index} value={availableTime}>
+                {availableTime}
+              </option>
+            ))}
+          </select>
+        </label>
         {/* Cause input */}
         <label className="block text-sm font-medium text-gray-700">
           Cause:
@@ -112,16 +183,13 @@ const UpdateAppointment = ({ appointmentId, token, onUpdateSuccess, onCancel, se
 
         {/* Documents file input */}
         <label className="block text-sm font-medium text-gray-700">
-            Documents:
-            <input
+          Documents:
+          <input
             type="file"
             className="mt-1 p-2 block w-full border rounded-md"
             onChange={handleFileChange}
-            />
-            {/* Display selected document name */}
-            {selectedDocumentName && (
-            <div className="mt-2 text-gray-600">Selected Document: {selectedDocumentName}</div>
-            )}
+            multiple // Enable multiple file selection
+          />
         </label>
 
         {/* Update button */}

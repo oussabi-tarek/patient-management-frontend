@@ -57,6 +57,21 @@ const UserAppointments = () => {
     }
   };
 
+  const handleDeleteDocument = async (appointmentId, documentIndex) => {
+    try {
+      await axios.delete(`http://localhost:8086/appointments/${appointmentId}/documents/${documentIndex}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log('Document deleted successfully');
+      fetchAppointments();
+    } catch (error) {
+      console.error('Error deleting document:', error.response.data.message);
+    }
+  };
+  
+
   return (
     <div >
       <Navbar />
@@ -83,18 +98,27 @@ const UserAppointments = () => {
                 <td>{appointment.etat}</td>
                 <td>
                     {appointment.documents.map((document, index) => (
-                        <div key={index}>
-                            {/* Display the document name */}
-                            {document.name}
+                      <div key={index}>
+                        {/* Display the document name */}
+                        {document.name}
 
-                            {/* Provide a download link */}
-                            <a className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                            href={`http://localhost:8086/documents/${appointment._id}/${index}`} // Adjust the URL accordingly
-                            download={document.name}
-                            >
-                            Download
-                            </a>
-                        </div>
+                        {/* Provide a download link */}
+                        <a
+                          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                          href={`http://localhost:8086/documents/${appointment._id}/${index}`}
+                          download={document.name}
+                        >
+                          Download
+                        </a>
+
+                        {/* Add a Delete button */}
+                        <button
+                          className="mt-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                          onClick={() => handleDeleteDocument(appointment._id, index)}
+                        >
+                          Delete
+                        </button>
+                      </div>
                     ))}
                 </td>
                 <td>

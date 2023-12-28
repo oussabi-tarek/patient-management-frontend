@@ -46,7 +46,7 @@ const UserAppointments = () => {
 
   const fetchAppointments = async () => {
     try {
-      const response = await axios.get(`http://localhost:8086/appointments`, {
+      const response = await axios.get(`http://localhost:8080/appointments`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -59,7 +59,7 @@ const UserAppointments = () => {
 
   const handleDeleteDocument = async (appointmentId, documentIndex) => {
     try {
-      await axios.delete(`http://localhost:8086/appointments/${appointmentId}/documents/${documentIndex}`, {
+      await axios.delete(`http://localhost:8080/appointments/${appointmentId}/documents/${documentIndex}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -105,7 +105,7 @@ const UserAppointments = () => {
                         {/* Provide a download link */}
                         <a
                           className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                          href={`http://localhost:8086/documents/${appointment._id}/${index}`}
+                          href={`http://localhost:8080/documents/${appointment._id}/${index}`}
                           download={document.name}
                         >
                           Télécharger

@@ -90,25 +90,38 @@ const UpdateAppointment = ({
     setSelectedDocumentNames(updatedDocumentNames);
   };
 
-  // Function to handle the update button click
   const handleUpdate = async () => {
     try {
+      // Convert each file to a base64-encoded string
+      const filePromises = documents.map((file) => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      });
+  
+      // Wait for all files to be converted
+      const fileContents = await Promise.all(filePromises);
+  
+      // Prepare the request data
       const requestData = {
         date,
         cause,
         type,
         doctorId,
         time,
-        // Concatenate existing documents with new ones
-        documents: [...selectedAppointment.documents, ...documents].map((file) => ({
+        documents: documents.map((file, index) => ({
           name: file.name,
           type: file.type,
-          data: file.data, // Assuming the file data is already base64-encoded
+          data: fileContents[index].split(',')[1], // Extract base64 content
         })),
       };
   
+      // Send the request
       await axios.put(
-        `http://localhost:8086/appointments/${appointmentId}`,
+        `http://localhost:8080/appointments/${appointmentId}`,
         requestData,
         {
           headers: {
@@ -123,7 +136,7 @@ const UpdateAppointment = ({
     } catch (error) {
       console.error('Error updating appointment:', error.response.data.message);
     }
-  };
+  };  
 
   return (
     <div className="container">

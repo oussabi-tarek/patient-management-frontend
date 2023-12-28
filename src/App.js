@@ -14,6 +14,7 @@ import Calendar from "./components/home/medecin/Calendar";
 import DoctorList from './components/doctors/DoctorList';
 import AppointmentForm from './components/appointment/AppointmentForm';
 import UserAppointments from './components/appointment/UserAppointments'; // Import the new component
+import RegisterForm from "./components/registration/RegisterForm";
 
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
    const [isMedecin,setIsMedecin] = useState(false);
    
   const storedToken = localStorage.getItem("token");
-  const [isAuth, setIsAuth] = useState(!!storedToken); 
+  const [isAuth, setIsAuth] = useState(false); 
   useEffect(() => {
     setIsAuth(!!storedToken);
   }, [storedToken]);
@@ -32,19 +33,12 @@ function App() {
       <ToastContainer />
 
       <Routes>
-        {/* <Route
-          path="/"
-          element={isAuth ? <Home /> : <Navigate to={redirectLink} />}
-        /> */}
 
+         <Route path="/register" element={<RegisterForm/>} />
         
         <Route
           path="/home"
           element={isAuth ? <Home /> : <Navigate to={redirectLink} />}
-        />
-        <Route
-          path="/login"
-          element={!isAuth ? <AuthPage /> : <Navigate to={redirectLink} />}
         />
         <Route
           path={LINKS.Settings}
@@ -56,7 +50,7 @@ function App() {
         {
           !isMedecin && (
           !isAuth  ? <Route path="/" element={<AuthPage setIsAuth={setIsAuth} />} /> : 
-          <Route path="/" element={<Home setIsAuth={setIsAuth}  />} />
+          <Route path="/" element={<Home  />} />
           )
         }
         <Route path="/medecin" element={<HomeMedecin setIsAuth={setIsAuth}/>} />

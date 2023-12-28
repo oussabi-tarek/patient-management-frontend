@@ -360,7 +360,7 @@
 // export default RegisterForm;
 
 ////////////////////////////////////////////////////
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const RegisterForm = () => {
@@ -386,12 +386,25 @@ const RegisterForm = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
+  useEffect(()=>{
+    axios
+    .get("http://localhost:8080/api/assistants")
+    .then((r) => {
+      console.log(r.data);
+       setAssistant(r.data);
+    })
+    .catch(() => {
+       console.log("Auth Error");
+    });
+  },[])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/users/register', formData);
+      console.log("foem:"+JSON.stringify(formData));
+      const response = await axios.post('http://localhost:8080/api/users/register', formData);
       console.log('Utilisateur enregistré avec succès:', response.data);
+      window.location.href = '/login';
       setFormData({
         nom: '',
         prenom: '',
@@ -568,7 +581,11 @@ const RegisterForm = () => {
                 className="input-field shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
                 <option value="" label="Sélectionnez le service" />
-                {/* Ajoutez ici les options pour les services */}
+                <option value="657a3d71b4ddc012bf83d66f" label='cardiologie'/>
+                <option value="657a3d71b4ddc012bf83d670" label="endocrinologie"/>
+                <option value="657a3d71b4ddc012bf83d671" label='rhumatologie'/>
+
+              
               </select>
             </div>
             <div className="mb-4">
@@ -581,8 +598,12 @@ const RegisterForm = () => {
                 className="input-field shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
                 <option value="" label="Sélectionnez l'assistant" />
-                <option value="assistant1" label="Assistant1" />
-                {/* Ajoutez ici les options pour les assistants */}
+                {
+                  assistantList.map((assistant) =>{
+                    const fullName= assistant.nom + " " + assistant.prenom;
+                        return( <option key={assistant._id} value={assistant._id} label={fullName} />);
+                  } )
+                }
               </select>
             </div>
           </>

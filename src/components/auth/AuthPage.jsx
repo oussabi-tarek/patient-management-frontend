@@ -1,6 +1,8 @@
 import axios from "axios";
-import '../styles/Auth.css';
+import "../styles/Auth.css";
 import { useState } from "react";
+import { LINKS } from "../../constants/routes";
+
 
 const AuthPage = (props) => {
   const [error, setError] = useState(null);
@@ -30,9 +32,11 @@ const AuthPage = (props) => {
       <form onSubmit={onSubmit} className="form-card">
         <div className="form-title">Bonjour 👋</div>
 
-        {
-          error ? <div className="form-error">{error}</div> : <div className="form-subtitle">Entrer vos informations</div>
-        }
+        {error ? (
+          <div className="form-error">{error}</div>
+        ) : (
+          <div className="form-subtitle">Entrer vos informations</div>
+        )}
 
         <div className="auth">
           <input className="auth-input" required type="email" name="username" placeholder="Email" />

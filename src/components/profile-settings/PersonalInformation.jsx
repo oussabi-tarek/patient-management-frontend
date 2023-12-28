@@ -193,7 +193,7 @@ const UserProfile = () => {
           <div className="flex flex-col gap-2 items-center">
             <div className="relative w-48 h-48">
               <img
-                className=" border border-darkGrey rounded-full w-48 h-48 rounded-full"
+                className=" border border-darkGrey  w-48 h-48 rounded-full"
                 src={imageProfile === "" ? PROFILE : imageProfile}
                 alt="user photo"
               />

@@ -21,7 +21,7 @@ const AppointmentForm = () => {
   const checkAvailability = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:8086/check-availability`,
+        `http://localhost:8080/check-availability`,
         { doctorId, date }
       );
 
@@ -80,7 +80,7 @@ const AppointmentForm = () => {
         requestData.append('documents', documents[i]);
       }
   
-      await axios.post(`http://localhost:8086/appointments`, requestData, {
+      await axios.post(`http://localhost:8080/appointments`, requestData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',

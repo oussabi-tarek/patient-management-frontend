@@ -12,7 +12,7 @@ const DoctorList = () => {
     const [doctors, setDoctors] = useState([]);
   
     useEffect(() => {
-      axios.get(`http://localhost:8086/medecins/${serviceName}`)
+      axios.get(`http://localhost:8080/medecins/${serviceName}`)
         .then(response => {
           setDoctors(response.data);
         })
@@ -26,7 +26,7 @@ const DoctorList = () => {
       <Navbar />
       <div className='container'>
           <div className='heading-container'>
-              <h1 className='font-serif mt-2'>Doctors in {serviceName}</h1>
+              <h1 className='font-serif mt-2'>Médecins en {serviceName}</h1>
           </div>
           <div className='doctor-cards'>
               {doctors.map(doctor => (

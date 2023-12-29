@@ -18,7 +18,7 @@ const UserAppointments = () => {
 
   const handleDeleteAppointment = async (appointmentId) => {
     try {
-      await axios.delete(`http://localhost:8086/appointments/${appointmentId}`, {
+      await axios.delete(`http://localhost:8080/appointments/${appointmentId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -46,7 +46,7 @@ const UserAppointments = () => {
 
   const fetchAppointments = async () => {
     try {
-      const response = await axios.get(`http://localhost:8086/appointments`, {
+      const response = await axios.get(`http://localhost:8080/appointments`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -57,11 +57,26 @@ const UserAppointments = () => {
     }
   };
 
+  const handleDeleteDocument = async (appointmentId, documentIndex) => {
+    try {
+      await axios.delete(`http://localhost:8080/appointments/${appointmentId}/documents/${documentIndex}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log('Document deleted successfully');
+      fetchAppointments();
+    } catch (error) {
+      console.error('Error deleting document:', error.response.data.message);
+    }
+  };
+  
+
   return (
     <div >
       <Navbar />
       <div className="user-appointments-container">
-        <h2>Your Appointments</h2>
+        <h2>Vos rendez-vous</h2>
         <table className="appointments-table">
             <thead>
             <tr>
@@ -83,27 +98,36 @@ const UserAppointments = () => {
                 <td>{appointment.etat}</td>
                 <td>
                     {appointment.documents.map((document, index) => (
-                        <div key={index}>
-                            {/* Display the document name */}
-                            {document.name}
+                      <div key={index}>
+                        {/* Display the document name */}
+                        {document.name}
 
-                            {/* Provide a download link */}
-                            <a className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                            href={`http://localhost:8086/documents/${appointment._id}/${index}`} // Adjust the URL accordingly
-                            download={document.name}
-                            >
-                            Download
-                            </a>
-                        </div>
+                        {/* Provide a download link */}
+                        <a
+                          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                          href={`http://localhost:8080/documents/${appointment._id}/${index}`}
+                          download={document.name}
+                        >
+                          Télécharger
+                        </a>
+
+                        {/* Add a Delete button */}
+                        <button
+                          className="mt-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                          onClick={() => handleDeleteDocument(appointment._id, index)}
+                        >
+                          Supprimer
+                        </button>
+                      </div>
                     ))}
                 </td>
                 <td>
                     <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                        onClick={() => handleUpdateAppointment(appointment._id)}>Update</button>
+                        onClick={() => handleUpdateAppointment(appointment._id)}>Mise à jour</button>
                 </td>
                 <td>
                     <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                        onClick={() => handleDeleteAppointment(appointment._id)}>Delete</button>
+                        onClick={() => handleDeleteAppointment(appointment._id)}>Supprimer</button>
                 </td>
                 </tr>
             ))}

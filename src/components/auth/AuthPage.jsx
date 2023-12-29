@@ -1,6 +1,7 @@
 import axios from "axios";
 import "../styles/Auth.css";
 import { useState } from "react";
+import { LINKS } from "../../constants/routes";
 
 
 const AuthPage = (props) => {
@@ -9,20 +10,22 @@ const AuthPage = (props) => {
     e.preventDefault();
     console.log(e.target[2].value);
     axios
-        .post("http://localhost:8086/api/users/login", { 
-          email: e.target[0].value,
-          password: e.target[1].value,
-        })
-        .then((response) => {
-          const { user, token } = response.data;
-          localStorage.setItem("user", JSON.stringify(user));
-          localStorage.setItem("token", token);
-          props.setIsAuth(true);
-        })
-        .catch((error) => {
-          setError("Email ou mot de passe incorrect!");
-          console.error("Auth Error", error);
-        });
+      .post("http://localhost:8080/api/users/login", { 
+        email: e.target[0].value,
+        password: e.target[1].value,
+       })
+      .then((r) => {
+        localStorage.setItem("user", JSON.stringify(r.data.user));
+        console.log(r.data.user);
+        localStorage.setItem("token",r.data.token);
+        props.setIsAuth(true);
+        if(r.data.user.role === "medecin")
+           window.location.href = '/medecin';
+      })
+      .catch((e) => {
+        setError("Email ou mot de passe incorrect!");
+         console.log("Auth Error", e)
+      });
   };
 
   return (

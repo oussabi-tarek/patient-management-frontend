@@ -8,7 +8,7 @@ function AssistantConsultationList() {
       // Charger les consultations depuis l'API
       const fetchConsultations = async () => {
         try {
-          const response = await axios.get('http://localhost:8086/consultations/unbilled',{
+          const response = await axios.get('http://localhost:8080/consultations/unbilled',{
             headers: {
               Authorization: `Bearer ${token}`,
             },

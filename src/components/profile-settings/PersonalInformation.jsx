@@ -1,21 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
 import axios from "axios";
 import { toast } from "react-toastify";
-
 import LinksProfiles from "./LinksProfiles";
 import PROFILE from "../../assets/avatar.jpg";
 import iconEdit from "../../assets/icon/edit.svg";
+import iconDelete from "../../assets/icon/delete.svg";
 import {
   isNotEmpty,
   validateEmail,
   validatePhoneNumber,
+  validateNumCnss,
 } from "../../utils/validation.util";
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
-  const [isEditing, setIsEditing] = useState(true);
-
-  const initialUserInputs = {
+  const [isEditing, setIsEditing] = useState(false);
+  const [authToken, setAuthToken] = useState("");
+  const [userInputs, setUserInputs] = useState({
     nom: { value: "", message: "" },
     prenom: { value: "", message: "" },
     email: { value: "", message: "" },
@@ -24,41 +26,85 @@ const UserProfile = () => {
     telephone: { value: "", message: "" },
     sexe: { value: "", message: "" },
     numero_cnss: { value: "", message: "" },
+  });
+
+  const [imageProfile, setImageProfile] = useState("");
+
+  const resetUserInputs = () => {
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+    setUser(storedUser);
+    setImageProfile(storedUser.imageProfile || "");
+    setUserInputs((prevUserInputs) => ({
+      ...prevUserInputs,
+      ...Object.fromEntries(
+        Object.entries(storedUser).map(([key, value]) => [
+          key,
+          { value: value || "", message: "" },
+        ])
+      ),
+    }));
   };
 
-  const [userInputs, setUserInputs] = useState(initialUserInputs);
+  const handleFileSelected = async (e) => {
+    if (e.target.files) {
+      const file = Array.from(e.target.files)[0];
+      const base64 = await readFileAsDataURL(file);
 
-  // Inside the resetUserInputs function
-  const resetUserInputs = () => {
-    const storedUser = localStorage.getItem("user");
-
-    if (storedUser) {
-      try {
-        const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser); // Fix: Set the parsed user object, not the string
-        setUserInputs((prevUserInputs) => ({
-          ...prevUserInputs,
-          ...Object.fromEntries(
-            Object.entries(parsedUser).map(([key, value]) => [
-              key,
-              { value: value || "", message: "" },
-            ])
-          ),
-        }));
-      } catch (error) {
-        console.error("Error parsing user data:", error);
+      if (base64) {
+        updateUserImage(base64);
       }
+    }
+  };
+
+  const readFileAsDataURL = (file) => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const updateUserImage = async (base64) => {
+    try {
+      await axios.put(
+        "http://localhost:8080/api/updateImagePatient",
+        { _id: user.id, base64 },
+        { headers: { Authorization: `Bearer ${authToken}` } }
+      );
+
+      const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+      storedUser.imageProfile = base64;
+      setImageProfile(base64);
+      localStorage.setItem("user", JSON.stringify(storedUser));
+    } catch (error) {
+      console.error("Error updating user image:", error.message);
+    }
+  };
+  const deleteImageProfile = async () => {
+    try {
+      await axios.delete("http://localhost:8080/api/deleteImagePatient", {
+        headers: { Authorization: `Bearer ${authToken}` },
+        data: { _id: user.id },
+      });
+
+      const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+      storedUser.imageProfile = "";
+      setImageProfile("");
+      localStorage.setItem("user", JSON.stringify(storedUser));
+    } catch (error) {
+      console.error("Error deleting user image:", error.message);
     }
   };
 
   useEffect(() => {
     resetUserInputs();
+    const storedToken = localStorage.getItem("token");
+    setAuthToken(storedToken);
   }, []);
 
   const handleCancel = () => {
     setIsEditing(false);
     resetUserInputs();
-    console.log(userInputs);
   };
 
   const handleSubmit = () => {
@@ -67,19 +113,16 @@ const UserProfile = () => {
       return;
     }
     // Check for validation errors
-    // if (
-    //   userInputs.nom.message !== "" ||
-    //   userInputs.prenom.message !== "" ||
-    //   userInputs.email.message !== "" ||
-    //   userInputs.adresse.message !== "" ||
-    //   userInputs.telephone.message !== "" ||
-    //   userInputs.date_naissance.message !== "" ||
-    //   userInputs.sexe.message !== "" ||
-    //   userInputs.numero_cnss.message !== ""
-    // ) {
-    //   return;
-    // }
-    console.log(user);
+    if (
+      userInputs.nom.message !== "" ||
+      userInputs.email.message !== "" ||
+      userInputs.adresse.message !== "" ||
+      userInputs.telephone.message !== "" ||
+      userInputs.prenom.message !== "" ||
+      userInputs.numero_cnss.message !== ""
+    ) {
+      return;
+    }
     const updatedPatientData = {
       _id: user.id,
       nom: userInputs.nom.value,
@@ -100,6 +143,8 @@ const UserProfile = () => {
         Authorization: `Bearer ${authToken}`,
       },
     };
+    //
+    // const onUpload = () => {};
 
     axios
       .put(
@@ -124,9 +169,9 @@ const UserProfile = () => {
         localStorage.setItem("user", JSON.stringify(updatedUser));
         toast.success("Profile updated successfully!", {
           autoClose: 2000,
-          position: toast.POSITION.TOP_RIGHT, 
+          position: toast.POSITION.TOP_RIGHT,
           bodyClassName: "toast-body",
-          progressClassName: "toast-progress", 
+          progressClassName: "toast-progress",
         });
         console.log("Updated Patient:", response.data);
         setIsEditing(false);
@@ -148,16 +193,43 @@ const UserProfile = () => {
           <div className="flex flex-col gap-2 items-center">
             <div className="relative w-48 h-48">
               <img
-                className=" border border-darkGrey rounded-full w-48 h-48 rounded-full"
-                src={PROFILE}
+                className=" border border-darkGrey  w-48 h-48 rounded-full"
+                src={imageProfile === "" ? PROFILE : imageProfile}
                 alt="user photo"
               />
+              <div className="flex gap-4 mt-4  justify-center">
+                <label className="relative w-10 h-10 bg-cyan-500 rounded-full cursor-pointer flex items-center">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileSelected}
+                    className="hidden"
+                  />
+                  <img
+                    className="m-auto"
+                    src={iconEdit}
+                    alt="avatar"
+                    width={20}
+                    height={20}
+                  />
+                </label>
+                <label className="relative w-10 h-10 bg-cyan-500 rounded-full cursor-pointer flex items-center">
+                  <img
+                    onClick={deleteImageProfile}
+                    className="m-auto"
+                    src={iconDelete}
+                    alt="avatar"
+                    width={20}
+                    height={20}
+                  />
+                </label>
+              </div>
             </div>
           </div>
           <div className="grow">
             <div className="flex items-center flex-col gap-4 justify-between md:flex-row">
               <h3 className="font-bold text-2xl text-sky-900">
-                Personal Information
+                Information Personnel
               </h3>
               {isEditing && (
                 <div className="flex gap-6">
@@ -166,7 +238,7 @@ const UserProfile = () => {
                     onClick={() => handleCancel()}
                     className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:brightness-110 hover:animate-pulse active:animate-bounce"
                   >
-                    <span className={` font-medium text-base `}>Cancel</span>
+                    <span className={` font-medium text-base `}>Annuler</span>
                   </button>
                   <button
                     type="button"
@@ -174,7 +246,7 @@ const UserProfile = () => {
                     className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:brightness-110 hover:animate-pulse active:animate-bounce"
                   >
                     <span className={` font-medium text-base`}>
-                      Save changes
+                      Sauvegarder
                     </span>
                   </button>
                 </div>
@@ -434,7 +506,7 @@ const UserProfile = () => {
                         ...userInputs,
                         numero_cnss: {
                           value: e.target.value,
-                          // message: validatePhoneNumber(e.target.value),
+                          // message: validateNumCnss(e.target.value),
                         },
                       })
                     }
@@ -448,7 +520,7 @@ const UserProfile = () => {
                   <p
                     className={`absolute w-full  text-base font-normal text-start text-red-500 -bottom-6 px-2`}
                   >
-                    {/* {userInputs?.numero_cnss?.message} */}
+                    {userInputs?.numero_cnss?.message}
                   </p>
                 </div>
               </div>

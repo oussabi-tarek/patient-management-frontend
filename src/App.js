@@ -1,3 +1,4 @@
+
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import { useEffect, useState } from "react";
@@ -8,62 +9,62 @@ import PersonalInformation from "./components/profile-settings/PersonalInformati
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HomeMedecin from "./components/home/medecin/HomeMedecin";
+import Details from "./components/home/medecin/Details";
+import Calendar from "./components/home/medecin/Calendar";
 import DoctorList from './components/doctors/DoctorList';
 import AppointmentForm from './components/appointment/AppointmentForm';
 import UserAppointments from './components/appointment/UserAppointments'; // Import the new component
-import Details from "./components/profile-settings/Details";
-import AssistantConsultationList from "./components/assistant/AssistantConsultationList";
-import AssistantDashboard from "./components/assistant/AssistantDashboard";
-// import AssistantDashboard from "./components/assistant/AssistantDashboard";
+import RegisterForm from "./components/registration/RegisterForm";
 
 
 function App() {
+  // const [isAuth,setIsAuth] = useState(false);
+   const [isMedecin,setIsMedecin] = useState(false);
+   
   const storedToken = localStorage.getItem("token");
-  const [isAuth, setIsAuth] = useState(!!storedToken); // Use !! to convert to boolean
-  const handleChangeAuthState = (state)=>{
-    setIsAuth(state);
-  }
+  const [isAuth, setIsAuth] = useState(false); 
   useEffect(() => {
     setIsAuth(!!storedToken);
   }, [storedToken]);
   const redirectLink = isAuth ? LINKS.HOME : LINKS.LOGIN;
-  console.log(isAuth);
 
   return (
-    <AssistantDashboard  />
-    // <BrowserRouter>
-    //   <ToastContainer />
+    <BrowserRouter>
+      <ToastContainer />
 
-    //   <Routes>
-    //     <Route
-    //       path="/"
-    //       element={isAuth ? <Home /> : <Navigate to={redirectLink} />}
-    //     />
-    //     <Route
-    //       path="/home"
-    //       element={isAuth ? <Home /> : <Navigate to={redirectLink} />}
-    //     />
-    //     <Route
-    //       path="/login"
-    //       element={!isAuth ? <AuthPage /> : <Navigate to={redirectLink} />}
-    //     />
-    //     <Route
-    //       path={LINKS.Settings}
-    //       element={
-    //         isAuth ? <PersonalInformation /> : <Navigate to={redirectLink} />
-    //       }
-    //     />
+      <Routes>
 
-    //     {
-    //       !isAuth  ? <Route path="/" element={<AuthPage setIsAuth={handleChangeAuthState} />} /> : 
-    //       <Route path="/" element={<Home setIsAuth={handleChangeAuthState}  />} />
-    //     }
-    //     <Route path="/medecin" element={<HomeMedecin setIsAuth={handleChangeAuthState}/>} />
-    //     <Route path="/details" element={<Details />} />
-    //       <Route path="/doctors/:serviceName" element={<DoctorList />} />
-    //         <Route path="/appointment/:doctorId" element={<AppointmentForm />} />
-    //         <Route path="/appointments" element={<UserAppointments />} />
-    //    </Routes>
+         <Route path="/register" element={<RegisterForm/>} />
+        
+        <Route
+          path="/home"
+          element={isAuth ? <Home /> : <Navigate to={redirectLink} />}
+        />
+        <Route
+          path={LINKS.Settings}
+          element={
+            isAuth ? <PersonalInformation /> : <Navigate to={redirectLink} />
+          }
+        />
+
+        {
+          !isMedecin && (
+          !isAuth  ? <Route path="/" element={<AuthPage setIsAuth={setIsAuth} />} /> : 
+          <Route path="/" element={<Home  />} />
+          )
+        }
+        <Route path="/medecin" element={<HomeMedecin setIsAuth={setIsAuth}/>} />
+        <Route path="/details/:id/:idRendezVous/:enCours" element={<Details />} />
+        <Route path="/date" element={
+           <div>
+           <Calendar />
+         </div>
+        } />
+        <Route path="/details" element={<Details />} />
+          <Route path="/doctors/:serviceName" element={<DoctorList />} />
+            <Route path="/appointment/:doctorId" element={<AppointmentForm />} />
+            <Route path="/appointments" element={<UserAppointments />} />
+       </Routes>
 
     // </BrowserRouter>
   );

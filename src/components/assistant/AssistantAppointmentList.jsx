@@ -16,7 +16,7 @@ const AssistantAppointmentList = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await axios.get('http://localhost:8086/appointments/forAssistant', {
+        const response = await axios.get('http://localhost:8080/appointments/forAssistant', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -33,7 +33,7 @@ const AssistantAppointmentList = () => {
   const cancelAppointment = async (appointmentId) => {
     try {
       await axios.put(
-        `http://localhost:8086/appointments/${appointmentId}/cancel`,
+        `http://localhost:8080/appointments/${appointmentId}/cancel`,
         null,
         {
           headers: {
@@ -57,7 +57,7 @@ const AssistantAppointmentList = () => {
   const validateAppointment = async (appointmentId) => {
     try {
       await axios.put(
-        `http://localhost:8086/appointments/${appointmentId}/validate`,
+        `http://localhost:8080/appointments/${appointmentId}/validate`,
         null,
         {
           headers: {

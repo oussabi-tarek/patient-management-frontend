@@ -10,7 +10,7 @@ import PDFViewer from '../home/medecin/PDFViewer';
 
 const token = localStorage.getItem('token');
 
-const UserAppointments = () => {
+const UserAppointments = (props) => {
   const [appointments, setAppointments] = useState([]);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [showPDF, setShowPDF] = useState(false);
@@ -82,7 +82,7 @@ const UserAppointments = () => {
 
   return (
     <div >
-      <Navbar />
+      <Navbar  setIsAuth={props.setIsAuth}/>
       <div className="user-appointments-container mt-9">
         { !showPDF ?
           <>

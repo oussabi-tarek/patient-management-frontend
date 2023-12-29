@@ -5,7 +5,7 @@ import Navbar from '../home/Navbar';
 import Footer from '../home/Footer';
 import '../styles/appointment.css';
 
-const AppointmentForm = () => {
+const AppointmentForm = (props) => {
   const { doctorId } = useParams();
   const [date, setDate] = useState('');
   const [time, setTime] = useState(''); // Add state for time
@@ -98,7 +98,7 @@ const AppointmentForm = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar setIsAuth={props.setIsAuth} />
       <div className="container">
         <h1 className='font-serif mt-9'>Créer un nouveau rendez-vous</h1>
         <div className="max-w-sm mx-auto m-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-4">
@@ -163,14 +163,14 @@ const AppointmentForm = () => {
           </label>
           {error && <p className="text-red-500">{error}</p>}
           {!isDateAvailable && (
-            <p className="text-red-500">All times for this date are taken. Please choose another date.</p>
+            <p className="text-red-500">Tous les horaires pour cette date sont pris. Veuillez choisir une autre date.</p>
           )}
           <button
             className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
             onClick={handleCreateAppointment}
             disabled={!isDateAvailable} 
           >
-            Create Appointment
+            Créer un rendez-vous
           </button>
         </div>
       </div>

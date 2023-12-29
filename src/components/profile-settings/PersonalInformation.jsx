@@ -67,7 +67,7 @@ const UserProfile = () => {
   const updateUserImage = async (base64) => {
     try {
       await axios.put(
-        "http://localhost:8080/api/updateImagePatient",
+        "http://localhost:8086/api/updateImagePatient",
         { _id: user.id, base64 },
         { headers: { Authorization: `Bearer ${authToken}` } }
       );
@@ -82,7 +82,7 @@ const UserProfile = () => {
   };
   const deleteimage = async () => {
     try {
-      await axios.delete("http://localhost:8080/api/deleteImagePatient", {
+      await axios.delete("http://localhost:8086/api/deleteImagePatient", {
         headers: { Authorization: `Bearer ${authToken}` },
         data: { _id: user.id },
       });

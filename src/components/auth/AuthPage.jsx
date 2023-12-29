@@ -10,7 +10,7 @@ const AuthPage = (props) => {
     e.preventDefault();
     console.log(e.target[2].value);
     axios
-      .post("http://localhost:8080/api/users/login", { 
+      .post("http://localhost:8086/api/users/login", { 
         email: e.target[0].value,
         password: e.target[1].value,
        })
@@ -20,7 +20,9 @@ const AuthPage = (props) => {
         localStorage.setItem("token",r.data.token);
         props.setIsAuth(true);
         if(r.data.user.role === "medecin")
-           window.location.href = '/medecin';
+         {  window.location.href = '/medecin';}
+         else if(r.data.user.role==="assistant")
+         {  window.location.href = '/assistant';}
       })
       .catch((e) => {
         setError("Email ou mot de passe incorrect!");

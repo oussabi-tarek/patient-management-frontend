@@ -6,7 +6,7 @@ export default function DownloadFacture({ consultationId }) {
     try {
       // Make a POST request to retrieve the facture PDF
       const response = await axios.post(
-        "http://localhost:8080/api/getFacture",
+        "http://localhost:8086/api/getFacture",
         { consultationId },
         {
           responseType: "blob",

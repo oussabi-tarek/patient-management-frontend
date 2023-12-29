@@ -16,7 +16,7 @@ const Navbar = (props) => {
     console.log(user);
     setUser(JSON.parse(user));
     axios.post(
-      "http://localhost:8080/chat",
+      "http://localhost:8086/chat",
       { username: JSON.parse(user).email} 
     )
     .then((response) => {

@@ -26,7 +26,7 @@ const UserAppointments = (props) => {
 
   const handleDeleteAppointment = async (appointmentId) => {
     try {
-      await axios.delete(`http://localhost:8080/appointments/${appointmentId}`, {
+      await axios.delete(`http://localhost:8086/appointments/${appointmentId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -54,7 +54,7 @@ const UserAppointments = (props) => {
 
   const fetchAppointments = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/appointments`, {
+      const response = await axios.get(`http://localhost:8086/appointments`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -67,7 +67,7 @@ const UserAppointments = (props) => {
 
   const handleDeleteDocument = async (appointmentId, documentIndex) => {
     try {
-      await axios.delete(`http://localhost:8080/appointments/${appointmentId}/documents/${documentIndex}`, {
+      await axios.delete(`http://localhost:8086/appointments/${appointmentId}/documents/${documentIndex}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -102,7 +102,7 @@ const UserAppointments = (props) => {
             <tbody>
             {appointments.map((appointment) => (
                 <tr key={appointment._id}>
-                <td>{appointment.date}</td>
+                <td>{new Date(appointment.date).toLocaleString()}</td>
                 <td>{appointment.cause}</td>
                 <td>{appointment.type}</td>
                 <td>{appointment.etat}</td>

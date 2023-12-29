@@ -81,7 +81,7 @@ function Form(props){
     const pdfDataUri = doc.output('datauristring');
 
     axios
-    .post("http://localhost:8080/api/consultations/"+props.rendezVousId, { 
+    .post("http://localhost:8086/api/consultations/"+props.rendezVousId, { 
        ordonnance:pdfDataUri,
        description:"ss",
        etat:"close"

@@ -3,12 +3,12 @@ import axios from 'axios';
 
 function AssistantConsultationList() {
     const [consultations, setConsultations] = useState([]);
-    const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzhhZmVhOWE1ZWYyOWIzYjM2N2Q4MCIsImlhdCI6MTcwMzYzNjUzMiwiZXhwIjoxNzA2MjI4NTMyfQ.zoyBHFbFmU7P8Rldy9fkUTNdp1EftDHcQKsRzqNefws';
+   const token=localStorage.getItem('token');
     useEffect(() => {
       // Charger les consultations depuis l'API
       const fetchConsultations = async () => {
         try {
-          const response = await axios.get('http://localhost:8080/consultations/unbilled',{
+          const response = await axios.get('http://localhost:8086/consultations/unbilled',{
             headers: {
               Authorization: `Bearer ${token}`,
             },

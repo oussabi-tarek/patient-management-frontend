@@ -9,14 +9,15 @@ const AssistantAppointmentList = () => {
   const [appointments, setAppointments] = useState([]); 
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzhhZmVhOWE1ZWYyOWIzYjM2N2Q4MCIsImlhdCI6MTcwMzYzNjUzMiwiZXhwIjoxNzA2MjI4NTMyfQ.zoyBHFbFmU7P8Rldy9fkUTNdp1EftDHcQKsRzqNefws';
+  const token=localStorage.getItem('token');
   const [modeModification, setModeModification] = useState(false);
   const [ModifyingAppointment, setModifyingAppointment] = useState(null);
 
   useEffect(() => {
+    
     const fetchAppointments = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/appointments/forAssistant', {
+        const response = await axios.get('http://localhost:8086/appointments/forAssistant', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -33,7 +34,7 @@ const AssistantAppointmentList = () => {
   const cancelAppointment = async (appointmentId) => {
     try {
       await axios.put(
-        `http://localhost:8080/appointments/${appointmentId}/cancel`,
+        `http://localhost:8086/appointments/${appointmentId}/cancel`,
         null,
         {
           headers: {
@@ -57,7 +58,7 @@ const AssistantAppointmentList = () => {
   const validateAppointment = async (appointmentId) => {
     try {
       await axios.put(
-        `http://localhost:8080/appointments/${appointmentId}/validate`,
+        `http://localhost:8086/appointments/${appointmentId}/validate`,
         null,
         {
           headers: {

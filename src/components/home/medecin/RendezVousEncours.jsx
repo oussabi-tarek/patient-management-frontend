@@ -7,7 +7,7 @@ function RendezVousEncours(props){
     const [rendezVousEncours,setRendezVousEncours]=React.useState([]);
     React.useEffect(()=>{
         axios
-      .get("http://localhost:8080/appointments/current/doctor",{ 
+      .get("http://localhost:8086/appointments/current/doctor",{ 
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },

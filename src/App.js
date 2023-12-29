@@ -17,6 +17,7 @@ import UserAppointments from './components/appointment/UserAppointments'; // Imp
 import RegisterForm from "./components/registration/RegisterForm";
 import ChatsPage from "./components/chat/ChatsPage";
 import axios from "axios";
+import AssistantDashboard from "./components/assistant/AssistantDashboard";
 
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
           )
         }
         <Route path="/medecin" element={<HomeMedecin setIsAuth={setIsAuth}/>} />
+        <Route path="/assistant" element={<AssistantDashboard setIsAuth={setIsAuth}/>} />
         <Route path="/details/:id/:idRendezVous/:enCours" element={<Details />} />
         <Route path="/date" element={
            <div>

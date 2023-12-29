@@ -22,7 +22,7 @@ const UpdateAppointment = ({
   const checkAvailability = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:8080/check-availability`,
+        `http://localhost:8086/check-availability`,
         { doctorId, date }
       );
 
@@ -121,7 +121,7 @@ const UpdateAppointment = ({
   
       // Send the request
       await axios.put(
-        `http://localhost:8080/appointments/${appointmentId}`,
+        `http://localhost:8086/appointments/${appointmentId}`,
         requestData,
         {
           headers: {

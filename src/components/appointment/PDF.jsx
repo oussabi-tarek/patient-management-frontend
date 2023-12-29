@@ -11,7 +11,7 @@ function PDF(props){
     const uint8Array = new Uint8Array(buffer);
 
     // Create a Blob from the Uint8Array
-    const blob = new Blob([uint8Array], { type: 'application/pdf' });
+    const blob = new Blob([uint8Array], { type: props.document.type });
 
     // Create a URL for the Blob
     const blobUrl = URL.createObjectURL(blob);
@@ -23,7 +23,7 @@ function PDF(props){
     link.href = blobUrl;
 
     // Specify the filename for the downloaded file
-    link.download = 'ordonnance.pdf';
+    link.download = props.document.name;
 
     // Append the link to the body
     document.body.appendChild(link);
@@ -80,7 +80,7 @@ function PDF(props){
                      </defs>
                   </svg>
                   <button type='button' onClick={displayDocument}>
-                  Ordonnance
+                  {props.document.name}
                   </button>
                </span>
                <span className="flex text-xs font-normal text-gray-500 dark:text-gray-400 gap-2">
@@ -92,7 +92,7 @@ function PDF(props){
                   <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="self-center" width="3" height="4" viewBox="0 0 3 4" fill="none">
                      <circle cx="1.5" cy="2" r="1.5" fill="#6B7280"/>
                   </svg>
-                  PDF
+                  {props.document.type}
                </span>
             </div>
             <div className="inline-flex self-center items-center">

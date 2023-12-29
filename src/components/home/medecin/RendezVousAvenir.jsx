@@ -14,7 +14,7 @@ function RendezVousAvenir(){
         const dateday = new Date();
         console.log(value);
         axios
-      .get("http://localhost:8080/appointments/doctor/date="+value,{ 
+      .get("http://localhost:8086/appointments/doctor/date="+value,{ 
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },

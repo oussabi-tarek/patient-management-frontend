@@ -18,7 +18,7 @@ function Details(){
     const user=JSON.parse(localStorage.getItem("user"));
     setRendezVousId(params.idRendezVous);
     axios
-     .get("http://localhost:8080/appointments/doctor/"+user.id+"/patient/"+params.id,{ 
+     .get("http://localhost:8086/appointments/doctor/"+user.id+"/patient/"+params.id,{ 
     headers: {
       Authorization: "Bearer " + localStorage.getItem("token"),
     },

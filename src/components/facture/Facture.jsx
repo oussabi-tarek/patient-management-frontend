@@ -29,7 +29,7 @@ export default function Facture({ consultationId }) {
       formData.append("consultation", "658c8a397ec56be951781cdd");
 
       const response = await axios.post(
-        "http://localhost:8080/api/saveFacture",
+        "http://localhost:8086/api/saveFacture",
         formData
       );
       console.log("Success:", response.data);
@@ -41,7 +41,7 @@ export default function Facture({ consultationId }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post("http://localhost:8080/api/facture", {
+        const response = await axios.post("http://localhost:8086/api/facture", {
           consultationId,
           // other data fields if needed
         });

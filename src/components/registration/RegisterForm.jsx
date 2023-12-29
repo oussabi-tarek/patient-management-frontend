@@ -395,7 +395,7 @@ const RegisterForm = () => {
   };
   useEffect(()=>{
     axios
-    .get("http://localhost:8080/api/assistants")
+    .get("http://localhost:8086/api/assistants")
     .then((r) => {
       console.log(r.data);
        setAssistant(r.data);
@@ -419,7 +419,7 @@ const RegisterForm = () => {
     formData.image = base64;
     try {
       console.log("foem:"+JSON.stringify(formData));
-      const response = await axios.post('http://localhost:8080/api/users/register', formData);
+      const response = await axios.post('http://localhost:8086/api/users/register', formData);
       console.log('Utilisateur enregistré avec succès:', response.data);
       window.location.href = '/';
       setFormData({

@@ -5,4 +5,5 @@ export const LINKS = {
     sign_up: "/sign-up",
 	register: "/register",
     chats: "/chats",
+    Parameters:'/Parameters'
 }

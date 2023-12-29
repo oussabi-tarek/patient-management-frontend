@@ -4,19 +4,16 @@ import clsx from "clsx";
 
 const links = [
   {
-    text: "Patametre",
-    route: "Settings",
-    isDisabled: false,
+    text: "Parameters",
+    route: "/Parameters",
   },
   {
     text: "Acceuil",
     route: "/",
-    isDisabled: false,
   },
   {
     text: "Chat",
-    route: "/chat",
-    isDisabled: false,
+    route: "/chats",
   },
 ];
 export default function LinksProfiles() {
@@ -24,22 +21,21 @@ export default function LinksProfiles() {
   const pathname = location.pathname;
   return (
     <>
-      <div className="w-full overflow-x-scroll flex justify-between border-b border-darkGrey px-4 no-scrollbar">
+      <div className="w-full overflow-x-scroll flex justify-around border-b border-darkGrey px-4 no-scrollbar">
         {links.map((link) => {
           return (
-            <Link key={link.text} className="mx-2" href="#">
+            <Link key={link.text} className="mx-2" to={link.route}>
               <div
                 className={clsx("pb-2", {
                   "border-b-2 border-lightBlue": link.route === pathname,
-                  "cursor-not-allowed": link.isDisabled,
                 })}
               >
                 <span
                   className={clsx(`font-medium text-base whitespace-nowrap`, {
                     "text-lightBlue": link.route === pathname,
                     "text-darkGrey":
-                      link.route !== pathname && !link.isDisabled,
-                    "text-lighGrey": link.route !== pathname && link.isDisabled,
+                      link.route !== pathname,
+                    "text-lighGrey": link.route !== pathname, 
                   })}
                 >
                   {link.text}

@@ -46,7 +46,7 @@ function App() {
           element={isAuth ? <Home /> : <Navigate to={redirectLink} />}
         /> */}
         <Route
-          path={LINKS.Settings}
+          path={LINKS.Parameters}
           element={
             isAuth ? <PersonalInformation /> : <Navigate to={redirectLink} />
           }
@@ -72,7 +72,7 @@ function App() {
             <Route path="/appointments" element={<UserAppointments  setIsAuth={setIsAuth} />} />
        </Routes>
 
-    </BrowserRouter>
+    // </BrowserRouter>
   );
 }
 

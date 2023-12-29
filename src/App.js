@@ -15,14 +15,19 @@ import DoctorList from './components/doctors/DoctorList';
 import AppointmentForm from './components/appointment/AppointmentForm';
 import UserAppointments from './components/appointment/UserAppointments'; // Import the new component
 import RegisterForm from "./components/registration/RegisterForm";
+import ChatsPage from "./components/chat/ChatsPage";
+import axios from "axios";
 
 
 function App() {
   // const [isAuth,setIsAuth] = useState(false);
    const [isMedecin,setIsMedecin] = useState(false);
+  
+   
    
   const storedToken = localStorage.getItem("token");
   const [isAuth, setIsAuth] = useState(false); 
+  
   useEffect(() => {
     setIsAuth(!!storedToken);
   }, [storedToken]);
@@ -50,7 +55,7 @@ function App() {
         {
           !isMedecin && (
           !isAuth  ? <Route path="/" element={<AuthPage setIsAuth={setIsAuth} />} /> : 
-          <Route path="/" element={<Home  />} />
+          <Route path="/" element={<Home setIsAuth={setIsAuth} />} />
           )
         }
         <Route path="/medecin" element={<HomeMedecin setIsAuth={setIsAuth}/>} />
@@ -60,6 +65,7 @@ function App() {
            <Calendar />
          </div>
         } />
+        <Route path="/chat" element={<ChatsPage />}  />
         <Route path="/details" element={<Details />} />
           <Route path="/doctors/:serviceName" element={<DoctorList />} />
             <Route path="/appointment/:doctorId" element={<AppointmentForm />} />

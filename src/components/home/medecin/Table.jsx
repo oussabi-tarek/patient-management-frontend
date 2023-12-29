@@ -87,7 +87,7 @@ function Table(propos){
                                 rendezVous.consultation!==undefined &&
                                 rendezVous.consultation.scanner.map((document)=>{
                                     return (
-                                        <Pdf ordonnance={document} onShowPDF={onShowPDF}/>
+                                        <Pdf ordonnance={document} onShowPDF={onShowPDF} toDelete="false"/>
                                     )
                                 })}
                             </td>

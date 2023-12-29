@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from './Navbar';
 import DOCTOR from '../../assets/doctor.png';
 import Footer from './Footer';
@@ -8,7 +8,7 @@ import About from './About';
 const Home=(props)=>{
     return(
         <div>
-            <Navbar/>
+            <Navbar setIsAuth={props.setIsAuth}/>
             <div className='flex  p-20 w-full justify-between'>
                 <div className='flex flex-col  self-center  space-y-4 ml-12'>
                    <p className='font-serif'>Nous fournissons toutes les solutions de soins de santé</p>

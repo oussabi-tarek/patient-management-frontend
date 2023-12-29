@@ -1,18 +1,33 @@
 import LOGO from "../../assets/logo.png";
 import PROFILE from "../../assets/profile.png";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { LINKS } from "../../constants/routes";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
-const Navbar = () => {
+const Navbar = (props) => {
   const [showInfoProfile, setShowInfoProfile] = useState(false);
+  const [user, setUser] = useState({});
   const handleShowInfoProfile = () => {
     setShowInfoProfile(!showInfoProfile);
   };
+  useEffect(()=>{
+    const user=localStorage.getItem('user');
+    setUser(JSON.parse(user));
+    axios.post(
+      "http://localhost:8080/chat",
+      { username: JSON.parse(user).email} 
+    )
+    .then((response) => {
+      console.log(response);
+      
+    })
+  },[])
   const logoutClick = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    window.location.href = LINKS.LOGIN;
+    props.setIsAuth(false);
+    //window.location.href = "/";
   };
   return (
     <div className="flex flex-col relative">
@@ -48,7 +63,7 @@ const Navbar = () => {
               <span className="sr-only">Open user menu</span>
               <img
                 className="w-8 h-8 rounded-full"
-                src={PROFILE}
+                src={user.image!==undefined ?   user.image:PROFILE}
                 alt="user photo"
               />
             </button>
@@ -85,7 +100,7 @@ const Navbar = () => {
             <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               <li>
                 <a
-                  href="#"
+                  href="/"
                   className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
                   aria-current="page"
                 >
@@ -94,7 +109,7 @@ const Navbar = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="#about"
                   className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   À propos
@@ -102,20 +117,20 @@ const Navbar = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="#services"
                   className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   Services
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a
                   href="#"
                   className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   Tarifs
                 </a>
-              </li>
+              </li> */}
               <li>
                 <a
                   href="#"
@@ -135,10 +150,10 @@ const Navbar = () => {
         >
           <div className="px-4 py-3">
             <span className="block text-sm text-gray-900 dark:text-white">
-              Bonnie Green
+              {user?.nom + " " + user?.prenom}
             </span>
             <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">
-              name@flowbite.com
+              {user?.email}
             </span>
           </div>
           <ul className="py-2" aria-labelledby="user-menu-button">
@@ -147,36 +162,44 @@ const Navbar = () => {
                     to="/appointments"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                 >
-                    Appointment
+                   Rendez-vous
                 </Link>
             </li>
             <li>
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
-
+                <Link
+                    to='/chat'
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                >
+                  Chat
+                </Link>
             </li>
+            {/* <li>
+                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+            </li> */}
             <li>
               <Link
                 to={LINKS.Parameters}
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
               >
-                Parameters
+                Paramètres
               </Link>
             </li>
 
-            <li>
+            {/* <li>
               <a
                 href="#"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
               >
                 Earnings
               </a>
-            </li>
+            </li> */}
             <li>
               <a
                 href="#"
+                onClick={logoutClick}
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
               >
-                Sign out
+                se déconnecter
               </a>
             </li>
           </ul>

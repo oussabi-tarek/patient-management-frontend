@@ -6,7 +6,7 @@ import ENDOCRINOLOGIE from '../../assets/endocrinologie.png';
 
 const Services=()=>{
     return(
-        <div className='flex p-20'>
+        <div id="services" className='flex p-20'>
             <div className='flex flex-col space-y-3 self-center'>
                 <p className='font-serif'>Nous couvrons une grande variété de services médicaux</p>
                 <p className='font-sans text-md font-bold text-indigo-700'>&nbsp;Nous fournissons des astuces et des conseils spéciaux en matière de soins de santé et de haut niveau de qualité.</p>

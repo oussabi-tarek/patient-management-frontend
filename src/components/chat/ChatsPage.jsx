@@ -1,13 +1,16 @@
-import { useEffect } from "react";
+import axios from "axios";
+import { useEffect,useState } from "react";
 import {  MultiChatSocket, MultiChatWindow,useMultiChatLogic } from "react-chat-engine-advanced";
+import { useParams } from "react-router";
 
 const ChatsPage = (props) => {
-   console.log(props.user);
+  const params=useParams();
+
 
   const chatProps = useMultiChatLogic(
-    "f38bb440-9203-4dea-9414-91b4b14fb518",
-    props.user.username,
-    props.user.secret,
+    "a8dbea7d-5ff7-47d9-aa00-f1d44b92c247",
+    JSON.parse(localStorage.getItem('user')).email,
+    JSON.parse(localStorage.getItem('user')).email,
   )
 
   return (

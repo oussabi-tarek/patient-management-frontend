@@ -95,6 +95,7 @@ function Form(props){
      })
     .then((r) => {
        setConsultationId(r.data._id);
+       setShowFacture(true);
       // localStorage.setItem("user", JSON.stringify(r.data.user));
       // console.log(r.data.user);
       // localStorage.setItem("token",r.data.token);
@@ -114,7 +115,7 @@ function Form(props){
         })
     }
   return(
-    !showFacture ?
+    !showFacture ?(
     <form className="mr-20 ml-20" onSubmit={generateOrdonnance}>
     <div className="mb-5">  
         <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
@@ -158,7 +159,7 @@ function Form(props){
      </div>
 
     <button type="submit"  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Generer</button>
-    </form>:<Facture consultationId={consultationId} />
+    </form>):(<Facture consultationId={consultationId} />)
   )
 }
 export default Form;

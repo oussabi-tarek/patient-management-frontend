@@ -147,7 +147,7 @@ export default function Facture({ consultationId }) {
               onClick={downloadPDF}
               disabled={!(loader === false)}
             >
-              {loader ? <span>Downloading</span> : <span>Download</span>}
+              {loader ? <span>Downloading</span> : <span>Enregistrer</span>}
             </button>
           </div>
         </div>

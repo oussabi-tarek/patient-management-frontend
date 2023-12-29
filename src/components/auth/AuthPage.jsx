@@ -48,6 +48,7 @@ const AuthPage = (props) => {
           <button className="auth-button" type="submit">
             Entrer
           </button>
+          
         </div>
       </form>
     </div>

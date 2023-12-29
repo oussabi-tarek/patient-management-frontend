@@ -14,6 +14,7 @@ function AssistantConsultationList() {
             },
           }); // Remplacez l'URL par votre endpoint
           setConsultations(response.data);
+          console.log('consultations :', consultations)
         } catch (error) {
           console.error('Erreur lors du chargement des consultations :', error.message);
         }

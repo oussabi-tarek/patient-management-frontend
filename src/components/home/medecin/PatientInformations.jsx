@@ -17,7 +17,7 @@ function PatientInformations(props){
        <div className="p-3 flex flex-col items-center">
         <div className="flex items-center justify-between mb-2">
             <a href="#">
-                <img className="w-14 h-14 rounded-full" src={PROFILE} alt="Jese Leos" />
+                <img className="w-14 h-14 rounded-full" src={props.patient.image} alt="Jese Leos" />
             </a>
             
             {/* <div>

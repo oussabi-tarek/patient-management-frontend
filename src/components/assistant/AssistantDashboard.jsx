@@ -5,8 +5,9 @@ import FacturesList from './FactureList'; // Importez le composant de liste des 
 import '../styles/AssistantDashboard.css';
 import Navbar from '../home/Navbar';
 import Footer from '../home/Footer';
+import '../home/medecin/styles_a_venir.css';
 
-const AssistantDashboard = () => {
+const AssistantDashboard = (props) => {
   const [selectedTab, setSelectedTab] = useState('Rendez-vous');
   const renderSelectedTab = () => {
     switch (selectedTab) {
@@ -22,8 +23,9 @@ const AssistantDashboard = () => {
   };
 
   return (
+    <>
     <div>
-      <Navbar />
+      <Navbar setIsAuth={props.setIsAuth} />
       <nav className="navbar">
         <div
           className={`nav-item ${selectedTab === 'Rendez-vous' ? 'selected' : ''}`}
@@ -46,8 +48,9 @@ const AssistantDashboard = () => {
       </nav>
       <hr />
       {renderSelectedTab()}
-      <Footer />
     </div>
+      <Footer />
+      </>
   );
 };
 

@@ -28,7 +28,7 @@ const Navbar = (props) => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     props.setIsAuth(false);
-    //window.location.href = "/";
+    window.location.href = "/";
   };
   return (
     <div className="flex flex-col relative">

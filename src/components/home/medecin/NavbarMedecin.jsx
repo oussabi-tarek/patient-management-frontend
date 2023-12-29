@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const NavbarMedecin = (props) => {
     const [showInfoProfile, setShowInfoProfile] = useState(false);
-    const [navbarClick,setNavBarClick]=useState("home");
+    const [navbarClick,setNavBarClick]=useState("rendez-vous en cours");
     const user=JSON.parse(localStorage.getItem('user'));
     const handleShowInfoProfile = () => {
         setShowInfoProfile(!showInfoProfile);

@@ -7,7 +7,7 @@ import DoctorCard from './DoctorCard';
 import { useParams } from 'react-router-dom'; // Import useParams hook
 import '../styles/doctor.css'; // Import your CSS file
 
-const DoctorList = () => {
+const DoctorList = (props) => {
     const { serviceName } = useParams();
     const [doctors, setDoctors] = useState([]);
   
@@ -23,7 +23,7 @@ const DoctorList = () => {
   
     return (
       <div>
-      <Navbar />
+      <Navbar setIsAuth={props.setIsAuth}/>
       <div className='container'>
           <div className='heading-container'>
               <h1 className='font-serif mt-9'>Médecins en {serviceName}</h1>

@@ -41,10 +41,10 @@ function App() {
 
          <Route path="/register" element={<RegisterForm/>} />
         
-        <Route
+        {/* <Route
           path="/home"
           element={isAuth ? <Home /> : <Navigate to={redirectLink} />}
-        />
+        /> */}
         <Route
           path={LINKS.Settings}
           element={
@@ -67,9 +67,9 @@ function App() {
         } />
         <Route path="/chat" element={<ChatsPage />}  />
         <Route path="/details" element={<Details />} />
-          <Route path="/doctors/:serviceName" element={<DoctorList />} />
-            <Route path="/appointment/:doctorId" element={<AppointmentForm />} />
-            <Route path="/appointments" element={<UserAppointments />} />
+          <Route path="/doctors/:serviceName" element={<DoctorList setIsAuth={setIsAuth}/>} />
+            <Route path="/appointment/:doctorId" element={<AppointmentForm setIsAuth={setIsAuth} />} />
+            <Route path="/appointments" element={<UserAppointments  setIsAuth={setIsAuth} />} />
        </Routes>
 
     </BrowserRouter>

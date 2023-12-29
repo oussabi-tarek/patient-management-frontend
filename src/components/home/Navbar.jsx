@@ -13,6 +13,7 @@ const Navbar = (props) => {
   };
   useEffect(()=>{
     const user=localStorage.getItem('user');
+    console.log(user);
     setUser(JSON.parse(user));
     axios.post(
       "http://localhost:8080/chat",
@@ -159,7 +160,7 @@ const Navbar = (props) => {
           <ul className="py-2" aria-labelledby="user-menu-button">
             <li>
                 <Link
-                    to="/appointments"
+                    to={ user.role!=="medecin" ? "/appointments":"/medecin"}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                 >
                    Rendez-vous

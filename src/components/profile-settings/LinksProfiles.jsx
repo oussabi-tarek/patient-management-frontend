@@ -10,13 +10,13 @@ const links = [
   },
   {
     text: "Acceuil",
-    route: "",
-    isDisabled: true,
+    route: "/",
+    isDisabled: false,
   },
   {
     text: "Chat",
-    route: "",
-    isDisabled: true,
+    route: "/chat",
+    isDisabled: false,
   },
 ];
 export default function LinksProfiles() {

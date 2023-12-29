@@ -5,6 +5,7 @@ import List from './List';
 import jsPDF from 'jspdf';
 import listeAnalyses from "../../../files/Analyse";
 import axios from "axios";
+import Facture from '../../facture/Facture';
 
 function Form(props){
    const [medicaments,setMedicaments]=useState([]);
@@ -12,7 +13,10 @@ function Form(props){
    const [medicament,setMedicament]=useState('');
    const [nbrPrise,setNbrPrise]=useState('');
    const [duration,setDuration]=useState('');
+   const [consultationId,setConsultationId]=useState('');
+   const [showFacture,setShowFacture]=useState(false);
    const onAddMedicamentAndNbrPrise=()=>{
+    console.log("medicament");
     if(medicament!=="" && nbrPrise!==""){
          const nvMedicament={
             med:medicament,
@@ -24,6 +28,9 @@ function Form(props){
         setNbrPrise('');
     }
    } 
+
+   
+
    const onAnalyseChoose=(e)=>{
     const updateAnalyses=analyses;
     updateAnalyses.push(e.target.value);
@@ -87,6 +94,7 @@ function Form(props){
        etat:"close"
      })
     .then((r) => {
+       setConsultationId(r.data._id);
       // localStorage.setItem("user", JSON.stringify(r.data.user));
       // console.log(r.data.user);
       // localStorage.setItem("token",r.data.token);
@@ -106,6 +114,7 @@ function Form(props){
         })
     }
   return(
+    !showFacture ?
     <form className="mr-20 ml-20" onSubmit={generateOrdonnance}>
     <div className="mb-5">  
         <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
@@ -133,7 +142,7 @@ function Form(props){
         <input type="text"  disabled="true" value={duration} id="duration" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
     </div>
     }
-    <button type="button" onClick={onAddMedicamentAndNbrPrise} className="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs w-full sm:w-auto px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Ajouter</button>
+    <button type="button" onClick={onAddMedicamentAndNbrPrise} className="text-white bg-blue-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs w-full sm:w-auto px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Ajouter</button>
     <List medicaments={medicaments} onDeleteMedicament={onDeleteMedicament}/> 
      <div className='mb-6 mt-6'>
             <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">Liste des analyses</h3>
@@ -149,7 +158,7 @@ function Form(props){
      </div>
 
     <button type="submit"  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Generer</button>
-    </form>
+    </form>:<Facture consultationId={consultationId} />
   )
 }
 export default Form;

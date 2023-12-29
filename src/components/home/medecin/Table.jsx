@@ -61,9 +61,9 @@ function Table(propos){
                             </td>
                             <td className="px-6 py-4">
                                 {
-                                rendezVous.documents.map((document)=>{
+                                rendezVous.documents.map((document,index)=>{
                                     return (
-                                        <Pdf ordonnance={document} onShowPDF={onShowPDF}/>
+                                        <Pdf key={index} ordonnance={document} onShowPDF={onShowPDF}/>
                                     )
                                 })}
                             </td>
@@ -76,18 +76,18 @@ function Table(propos){
                             <td className="px-6 py-4">
                                 {
                                 rendezVous.consultation!==undefined &&
-                                rendezVous.consultation.analyses.map((document)=>{
+                                rendezVous.consultation.analyses.map((document,index)=>{
                                     return (
-                                        <Pdf ordonnance={document} onShowPDF={onShowPDF}/>
+                                        <Pdf key={index} ordonnance={document} onShowPDF={onShowPDF}/>
                                     )
                                 })}
                             </td>
                             <td className="px-6 py-4">
                                 {
                                 rendezVous.consultation!==undefined &&
-                                rendezVous.consultation.scanner.map((document)=>{
+                                rendezVous.consultation.scanner.map((document,index)=>{
                                     return (
-                                        <Pdf ordonnance={document} onShowPDF={onShowPDF} toDelete="false"/>
+                                        <Pdf key={index} ordonnance={document} onShowPDF={onShowPDF} toDelete="false"/>
                                     )
                                 })}
                             </td>

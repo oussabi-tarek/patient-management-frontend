@@ -6,7 +6,7 @@ function RendezVousAvenir(){
     const [rendezVousAvenir,setRendezVousAvenir]=React.useState([]);
     React.useEffect(()=>{
         axios
-      .get("http://localhost:8080/appointments/doctor", { 
+      .get("http://localhost:8086/appointments/doctor", { 
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },

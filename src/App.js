@@ -11,11 +11,18 @@ import HomeMedecin from "./components/home/medecin/HomeMedecin";
 import DoctorList from './components/doctors/DoctorList';
 import AppointmentForm from './components/appointment/AppointmentForm';
 import UserAppointments from './components/appointment/UserAppointments'; // Import the new component
+import Details from "./components/profile-settings/Details";
+import AssistantConsultationList from "./components/assistant/AssistantConsultationList";
+import AssistantDashboard from "./components/assistant/AssistantDashboard";
+// import AssistantDashboard from "./components/assistant/AssistantDashboard";
 
 
 function App() {
   const storedToken = localStorage.getItem("token");
   const [isAuth, setIsAuth] = useState(!!storedToken); // Use !! to convert to boolean
+  const handleChangeAuthState = (state)=>{
+    setIsAuth(state);
+  }
   useEffect(() => {
     setIsAuth(!!storedToken);
   }, [storedToken]);
@@ -23,41 +30,42 @@ function App() {
   console.log(isAuth);
 
   return (
-    <BrowserRouter>
-      <ToastContainer />
+    <AssistantDashboard  />
+    // <BrowserRouter>
+    //   <ToastContainer />
 
-      <Routes>
-        <Route
-          path="/"
-          element={isAuth ? <Home /> : <Navigate to={redirectLink} />}
-        />
-        <Route
-          path="/home"
-          element={isAuth ? <Home /> : <Navigate to={redirectLink} />}
-        />
-        <Route
-          path="/login"
-          element={!isAuth ? <AuthPage /> : <Navigate to={redirectLink} />}
-        />
-        <Route
-          path={LINKS.Settings}
-          element={
-            isAuth ? <PersonalInformation /> : <Navigate to={redirectLink} />
-          }
-        />
+    //   <Routes>
+    //     <Route
+    //       path="/"
+    //       element={isAuth ? <Home /> : <Navigate to={redirectLink} />}
+    //     />
+    //     <Route
+    //       path="/home"
+    //       element={isAuth ? <Home /> : <Navigate to={redirectLink} />}
+    //     />
+    //     <Route
+    //       path="/login"
+    //       element={!isAuth ? <AuthPage /> : <Navigate to={redirectLink} />}
+    //     />
+    //     <Route
+    //       path={LINKS.Settings}
+    //       element={
+    //         isAuth ? <PersonalInformation /> : <Navigate to={redirectLink} />
+    //       }
+    //     />
 
-        {
-          !isAuth  ? <Route path="/" element={<AuthPage setIsAuth={setIsAuth} />} /> : 
-          <Route path="/" element={<Home setIsAuth={setIsAuth}  />} />
-        }
-        <Route path="/medecin" element={<HomeMedecin setIsAuth={setIsAuth}/>} />
-        <Route path="/details" element={<Details />} />
-          <Route path="/doctors/:serviceName" element={<DoctorList />} />
-            <Route path="/appointment/:doctorId" element={<AppointmentForm />} />
-            <Route path="/appointments" element={<UserAppointments />} />
-       </Routes>
+    //     {
+    //       !isAuth  ? <Route path="/" element={<AuthPage setIsAuth={handleChangeAuthState} />} /> : 
+    //       <Route path="/" element={<Home setIsAuth={handleChangeAuthState}  />} />
+    //     }
+    //     <Route path="/medecin" element={<HomeMedecin setIsAuth={handleChangeAuthState}/>} />
+    //     <Route path="/details" element={<Details />} />
+    //       <Route path="/doctors/:serviceName" element={<DoctorList />} />
+    //         <Route path="/appointment/:doctorId" element={<AppointmentForm />} />
+    //         <Route path="/appointments" element={<UserAppointments />} />
+    //    </Routes>
 
-    </BrowserRouter>
+    // </BrowserRouter>
   );
 }
 

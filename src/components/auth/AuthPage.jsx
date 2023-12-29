@@ -1,11 +1,9 @@
 import axios from "axios";
 import "../styles/Auth.css";
 import { useState } from "react";
-import Radio from "./Radio";
-import { LINKS } from "../../constants/routes";
 
 
-const AuthPage = () => {
+const AuthPage = (props) => {
   const [error, setError] = useState(null);
   const onSubmit = (e) => {
     e.preventDefault();

@@ -103,7 +103,7 @@ const UserProfile = () => {
 
     axios
       .put(
-        "http://localhost:8080/api/updatePatient",
+        "http://localhost:8086/api/updatePatient",
         updatedPatientData,
         axiosConfig
       )

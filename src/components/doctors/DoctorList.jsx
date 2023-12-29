@@ -26,7 +26,7 @@ const DoctorList = () => {
       <Navbar />
       <div className='container'>
           <div className='heading-container'>
-              <h1 className='font-serif mt-2'>Médecins en {serviceName}</h1>
+              <h1 className='font-serif mt-9'>Médecins en {serviceName}</h1>
           </div>
           <div className='doctor-cards'>
               {doctors.map(doctor => (

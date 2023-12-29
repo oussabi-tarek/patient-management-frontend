@@ -5,12 +5,20 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import UpdateAppointment from './UpdateAppointment';
 import '../styles/UserAppointments.css'; // Import your CSS file for styling
+import PDF from './PDF';
+import PDFViewer from '../home/medecin/PDFViewer';
 
 const token = localStorage.getItem('token');
 
 const UserAppointments = () => {
   const [appointments, setAppointments] = useState([]);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [showPDF, setShowPDF] = useState(false);
+  const [data,setData]=useState([]);
+  const onShowPDF=(data)=>{
+    setData(data);
+    setShowPDF(true);
+ }
 
   useEffect(() => {
     fetchAppointments();
@@ -75,9 +83,11 @@ const UserAppointments = () => {
   return (
     <div >
       <Navbar />
-      <div className="user-appointments-container">
+      <div className="user-appointments-container mt-9">
+        { !showPDF ?
+          <>
         <h2>Vos rendez-vous</h2>
-        <table className="appointments-table">
+        <table className="appointments-table mt-9">
             <thead>
             <tr>
                 <th>Date</th>
@@ -98,26 +108,10 @@ const UserAppointments = () => {
                 <td>{appointment.etat}</td>
                 <td>
                     {appointment.documents.map((document, index) => (
-                      <div key={index}>
+                      <div key={index} className='flex flex-row'>
                         {/* Display the document name */}
-                        {document.name}
-
-                        {/* Provide a download link */}
-                        <a
-                          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                          href={`http://localhost:8080/documents/${appointment._id}/${index}`}
-                          download={document.name}
-                        >
-                          Télécharger
-                        </a>
-
-                        {/* Add a Delete button */}
-                        <button
-                          className="mt-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-                          onClick={() => handleDeleteDocument(appointment._id, index)}
-                        >
-                          Supprimer
-                        </button>
+                        <PDF document={document} onShowPDF={onShowPDF}
+                        handleDeleteDocument={handleDeleteDocument} id={appointment._id} index={index}/>
                       </div>
                     ))}
                 </td>
@@ -143,6 +137,12 @@ const UserAppointments = () => {
             selectedAppointment={selectedAppointment}
             />
         )}
+        </>
+        : 
+        <div className='w-full h-full mt-9' id="pdfViewer">
+        <PDFViewer data={data} setShowPDF={setShowPDF}/>
+        </div>
+      }
       </div>
       <Footer />
     </div>

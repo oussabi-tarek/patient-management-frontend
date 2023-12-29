@@ -366,6 +366,8 @@ import axios from 'axios';
 const RegisterForm = () => {
   const [serviceList, setServiceList] = useState([]);
   const [assistantList, setAssistant] = useState([]);
+  const [image, setImage] = useState(null);
+
   const [formData, setFormData] = useState({
     nom: '',
     prenom: '',
@@ -380,11 +382,16 @@ const RegisterForm = () => {
     numero_cnss: '', // Champ spécifique au patient
     service: '', // Champ spécifique au médecin
     assistant: '', // Champ spécifique au médecin
+    image:null
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
   };
   useEffect(()=>{
     axios
@@ -397,14 +404,24 @@ const RegisterForm = () => {
        console.log("Auth Error");
     });
   },[])
+  const readFileAsDataURL = (file) => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.readAsDataURL(file);
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const file =image;
+    const base64 = await readFileAsDataURL(file);
+    formData.image = base64;
     try {
       console.log("foem:"+JSON.stringify(formData));
       const response = await axios.post('http://localhost:8080/api/users/register', formData);
       console.log('Utilisateur enregistré avec succès:', response.data);
-      window.location.href = '/login';
+      window.location.href = '/';
       setFormData({
         nom: '',
         prenom: '',
@@ -439,6 +456,7 @@ const RegisterForm = () => {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
         </div>
+
 
         <div className="mb-4">
           <label htmlFor="prenom" className="block text-gray-700 text-sm font-bold mb-2">Prénom:</label>
@@ -486,6 +504,14 @@ const RegisterForm = () => {
             value={formData.confirmPassword}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
+        </div>
+        <div className="mb-4">
+        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Choisir un Profile</label>
+        <input 
+        name='image'
+        accept="image/*"
+        onChange={handleImageChange}
+        className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="image" type="file"/>
         </div>
 
         <div className="mb-4">

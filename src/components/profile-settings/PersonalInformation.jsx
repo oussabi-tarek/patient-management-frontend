@@ -28,12 +28,12 @@ const UserProfile = () => {
     numero_cnss: { value: "", message: "" },
   });
 
-  const [imageProfile, setImageProfile] = useState("");
+  const [image, setImage] = useState("");
 
   const resetUserInputs = () => {
     const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
     setUser(storedUser);
-    setImageProfile(storedUser.imageProfile || "");
+    setImage(storedUser.image || "");
     setUserInputs((prevUserInputs) => ({
       ...prevUserInputs,
       ...Object.fromEntries(
@@ -73,14 +73,14 @@ const UserProfile = () => {
       );
 
       const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
-      storedUser.imageProfile = base64;
-      setImageProfile(base64);
+      storedUser.image = base64;
+      setImage(base64);
       localStorage.setItem("user", JSON.stringify(storedUser));
     } catch (error) {
       console.error("Error updating user image:", error.message);
     }
   };
-  const deleteImageProfile = async () => {
+  const deleteimage = async () => {
     try {
       await axios.delete("http://localhost:8080/api/deleteImagePatient", {
         headers: { Authorization: `Bearer ${authToken}` },
@@ -88,8 +88,8 @@ const UserProfile = () => {
       });
 
       const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
-      storedUser.imageProfile = "";
-      setImageProfile("");
+      storedUser.image = "";
+      setImage("");
       localStorage.setItem("user", JSON.stringify(storedUser));
     } catch (error) {
       console.error("Error deleting user image:", error.message);
@@ -99,6 +99,7 @@ const UserProfile = () => {
   useEffect(() => {
     resetUserInputs();
     const storedToken = localStorage.getItem("token");
+    
     setAuthToken(storedToken);
   }, []);
 
@@ -194,7 +195,7 @@ const UserProfile = () => {
             <div className="relative w-48 h-48">
               <img
                 className=" border border-darkGrey rounded-full w-48 h-48 rounded-full"
-                src={imageProfile === "" ? PROFILE : imageProfile}
+                src={image === "" ? PROFILE : image}
                 alt="user photo"
               />
               <div className="flex gap-4 mt-4  justify-center">
@@ -215,7 +216,7 @@ const UserProfile = () => {
                 </label>
                 <label className="relative w-10 h-10 bg-cyan-500 rounded-full cursor-pointer flex items-center">
                   <img
-                    onClick={deleteImageProfile}
+                    onClick={deleteimage}
                     className="m-auto"
                     src={iconDelete}
                     alt="avatar"

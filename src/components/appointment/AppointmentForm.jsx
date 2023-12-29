@@ -100,8 +100,8 @@ const AppointmentForm = () => {
     <div>
       <Navbar />
       <div className="container">
-        <h1 className='font-serif mt-2'>Créer un nouveau rendez-vous</h1>
-        <div className="max-w-sm m-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-4">
+        <h1 className='font-serif mt-9'>Créer un nouveau rendez-vous</h1>
+        <div className="max-w-sm mx-auto m-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-4">
           <label className="block text-sm font-medium text-gray-700">
             Date:
             <input

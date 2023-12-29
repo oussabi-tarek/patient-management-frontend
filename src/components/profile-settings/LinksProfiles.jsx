@@ -4,27 +4,17 @@ import clsx from "clsx";
 
 const links = [
   {
-    text: "Settings",
+    text: "Patametre",
     route: "Settings",
     isDisabled: false,
   },
   {
-    text: "Rendez vous",
+    text: "Acceuil",
     route: "",
     isDisabled: true,
   },
   {
     text: "Chat",
-    route: "",
-    isDisabled: true,
-  },
-  {
-    text: "History" ,
-    route: "",
-    isDisabled: true,
-  },
-  {
-    text: "Guide",
     route: "",
     isDisabled: true,
   },

@@ -9,18 +9,33 @@ export default function Facture({ consultationId }) {
 
   const [loader, setLoader] = useState(false);
 
-  const downloadPDF = () => {
-    const capture = document.querySelector(".actual-facture");
-    setLoader(true);
-    html2canvas(capture).then((canvas) => {
+  const downloadPDF = async () => {
+    try {
+      const capture = document.querySelector(".actual-facture");
+      const canvas = await html2canvas(capture);
       const imgData = canvas.toDataURL("img/png");
       const doc = new jsPDF("p", "mm", "a4");
       const componentWidth = doc.internal.pageSize.getWidth();
       const componentHeight = doc.internal.pageSize.getHeight();
       doc.addImage(imgData, "PNG", 0, 0, componentWidth, componentHeight);
-      setLoader(false);
       doc.save("rdv.pdf");
-    });
+      const pdfData = doc.output("blob");
+
+      const formData = new FormData();
+      formData.append(
+        "document",
+        new File([pdfData], "rdv.pdf", { type: "application/pdf" })
+      );
+      formData.append("consultation", "658c8a397ec56be951781cdd");
+
+      const response = await axios.post(
+        "http://localhost:8080/api/saveFacture",
+        formData
+      );
+      console.log("Success:", response.data);
+    } catch (error) {
+      console.error("Error:", error.response.data);
+    }
   };
 
   useEffect(() => {
@@ -67,6 +82,10 @@ export default function Facture({ consultationId }) {
           <div className="bg-white text-gray-700 flex w-full justify-between items-center border-t border-gray-300 p-2">
             <span>Date</span>
             <span>{data.dateConsultation}</span>
+          </div>
+          <div className="bg-white text-gray-700 flex w-full justify-between items-center border-t border-gray-300 p-2">
+            <span>Type</span>
+            <span>{data.typeConsultation}</span>
           </div>
           <div className="bg-white text-gray-700 flex w-full justify-between items-center border-t border-gray-300 p-2">
             <span>Etat</span>

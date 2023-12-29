@@ -193,7 +193,7 @@ const UserProfile = () => {
           <div className="flex flex-col gap-2 items-center">
             <div className="relative w-48 h-48">
               <img
-                className=" border border-darkGrey rounded-full w-48 h-48 rounded-full"
+                className=" border border-darkGrey  w-48 h-48 rounded-full"
                 src={imageProfile === "" ? PROFILE : imageProfile}
                 alt="user photo"
               />
@@ -229,7 +229,7 @@ const UserProfile = () => {
           <div className="grow">
             <div className="flex items-center flex-col gap-4 justify-between md:flex-row">
               <h3 className="font-bold text-2xl text-sky-900">
-                Personal Information
+                Information Personnel
               </h3>
               {isEditing && (
                 <div className="flex gap-6">
@@ -238,7 +238,7 @@ const UserProfile = () => {
                     onClick={() => handleCancel()}
                     className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:brightness-110 hover:animate-pulse active:animate-bounce"
                   >
-                    <span className={` font-medium text-base `}>Cancel</span>
+                    <span className={` font-medium text-base `}>Annuler</span>
                   </button>
                   <button
                     type="button"
@@ -246,7 +246,7 @@ const UserProfile = () => {
                     className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:brightness-110 hover:animate-pulse active:animate-bounce"
                   >
                     <span className={` font-medium text-base`}>
-                      Save changes
+                      Sauvegarder
                     </span>
                   </button>
                 </div>

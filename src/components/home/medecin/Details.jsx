@@ -44,7 +44,7 @@ function Details(){
         setMedicamentsToChoose(listeDesMedicaments[2]);
     }
     
-    console.log(r.data);
+    //console.log(r.data);
   })
   .catch((e) => {
      console.log("Auth Error", e)

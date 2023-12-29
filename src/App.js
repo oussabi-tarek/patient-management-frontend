@@ -74,7 +74,7 @@ function App() {
             <Route path="/appointments" element={<UserAppointments  setIsAuth={setIsAuth} />} />
        </Routes>
 
-    // </BrowserRouter>
+     </BrowserRouter>
   );
 }
 
